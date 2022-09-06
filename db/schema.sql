@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS merchantGameDB;
+CREATE DATABASE merchantGameDB;
