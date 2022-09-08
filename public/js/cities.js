@@ -38,6 +38,24 @@ const sellItemHandler = async (event) => {
   }
 };
 
+const backToMapHandler = async (event) => {
+  //route to fill out
+  const response = await fetch(`/api/`, {
+    method: "GET",
+  });
+
+  //route of the wordl map to fill out
+  if (response.ok) {
+    document.location.replace("/");
+  } else {
+    alert(response.statusText);
+  }
+};
+
+document
+  .querySelector(".world-map")
+  .addEventListener("click", backToMapHandler);
+
 document.querySelector(".buy-item").addEventListener("click", buyItemHandler);
 
 document.querySelector(".sell-item").addEventListener("click", sellItemHandler);
