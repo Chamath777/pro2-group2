@@ -19,7 +19,7 @@ const newGameHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/");
     } else {
-      alert("Failed to create new game!");
+      alert(response.statusText);
     }
   }
 };
@@ -37,7 +37,7 @@ const deleteGameHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/");
     } else {
-      alert("Failed to delete game");
+      alert(response.statusText);
     }
   }
 };
