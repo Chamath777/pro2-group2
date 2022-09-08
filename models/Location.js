@@ -21,19 +21,19 @@ Location.init
     saveFileId:
     {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: 
         {
           model: 'saveFile',
           key: 'id',
         },
-      },
+    },
   },
   {
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    underscored: true,
-    modelName: 'city',
+    modelName: 'location',
   }
 );
 

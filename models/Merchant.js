@@ -24,12 +24,13 @@ Merchant.init
         type: DataTypes.STRING,
         allowNull: false,
     },
-    cityId:
+    locationId:
     {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: 
         {
-          model: 'city',
+          model: 'location',
           key: 'id',
         },
     },
@@ -38,7 +39,6 @@ Merchant.init
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    underscored: true,
     modelName: 'merchant',
   }
 );

@@ -20,12 +20,13 @@ Item.init
     },
     price:
     {
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
         allowNull: false,
     },
     itemTypeId:
     {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: 
         {
           model: 'itemType',
@@ -35,10 +36,12 @@ Item.init
     merchantId:
     {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: 
         {
           model: 'itemType',
           key: 'id',
+          unique: false,
         },
     },
   },
@@ -46,7 +49,6 @@ Item.init
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    underscored: true,
     modelName: 'item',
   }
 );

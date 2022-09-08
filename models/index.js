@@ -4,11 +4,17 @@ const Location = require('./Location');
 const Merchant = require('./Merchant');
 const ItemType = require('./ItemType');
 const Item = require('./Item');
+const ProducedItemType = require('./ProducedItemType');
 
 User.hasMany(SaveFile, 
 {
     foreignKey: 'userId',
     onDelete: 'CASCADE'
+});
+
+SaveFile.belongsTo(User, 
+{
+    foreignKey: 'userId',
 });
 
 SaveFile.hasMany(Location, 
@@ -17,9 +23,20 @@ SaveFile.hasMany(Location,
     onDelete: 'CASCADE'
 });
 
+Location.belongsTo(SaveFile,
+{
+    foreignKey: 'saveFileId',
+});
+
 Location.hasMany(Merchant,
 {
-    foreignKey: 'cityId',
+    foreignKey: 'locationId',
+    onDelete: 'CASCADE'
+});
+
+Merchant.belongsTo(Location,
+{
+    foreignKey: 'locationId',
     onDelete: 'CASCADE'
 });
 
@@ -29,9 +46,32 @@ Merchant.hasMany(Item,
     onDelete: 'CASCADE'
 });
 
+Item.belongsTo(Merchant,
+{
+    foreignKey: 'merchantId',
+});
+
 Item.hasOne(ItemType,
 {
     foreignKey: 'itemTypeId',
 });
 
-module.exports = { User, SaveFile, City: Location, Merchant, ItemType, Item };
+ItemType.belongsToMany(Location,
+{
+    through:
+    {
+        model: ProducedItemType,
+        unique: false,
+    },
+});
+
+Location.belongsToMany(ItemType,
+{
+    through:
+    {
+        model: ProducedItemType,
+        unique: false,
+    },
+});
+
+module.exports = { User, SaveFile, Location, Merchant, ItemType, Item, ProducedItemType };
