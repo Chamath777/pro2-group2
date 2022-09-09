@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-auto">
+    {{! name of user }}
+    <h1>Welcome, ... </h1>
+  </div>
+</div>
+<section class="container">
+  <div class="flex-row justify-center">
+    {{#each}}
+      {{! add savefile }}
+      <div class="card">
+        {{! name of safeFile in Header }}
+        <header></header>
+        <div class="card-body">
+          {{! have a random image in the card to make it nicer  }}
+          <img src="/images/" alt="" />
+          {{! button will direct to existing game }}
+          <button class="" id="">Go to game</button>
+        </div>
+      </div>
+    {{/each}}
+    {{! to create a new game }}
+    <div class="card">
+      {{! name of safeFile in Header }}
+      <header>Create a new game!</header>
+      <div class="card-body">
+        {{! have a random image in the card to make it nicer  }}
+        <img src="/images/" alt="" />
+        {{! button will direct to existing game }}
+        <button class="" id="">Create</button>
+      </div>
+    </div>
+  </div>
+</section>
