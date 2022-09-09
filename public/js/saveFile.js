@@ -29,7 +29,8 @@ const deleteGameHandler = async (event) => {
   if (event.target.hasAttribute("data-id")) {
     const gameId = event.target.getAttribute("data-id");
 
-    const response = await fetch(`/api/games/${gameId}`, {
+    // route to fill out
+    const response = await fetch(`/api/${gameId}`, {
       method: "DELETE",
     });
 
@@ -44,4 +45,4 @@ const deleteGameHandler = async (event) => {
 
 document.querySelector(".new-game").addEventListener("submit", newGameHandler);
 
-document.querySelector(".game-list").addEventListener("click", deleteGameHandler);
+document.querySelector(".delete-game").addEventListener("click", deleteGameHandler);
