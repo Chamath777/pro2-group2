@@ -10,13 +10,19 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
-
 </head>
   <body>
+   <nav>
+      {{#if logged_in}}
+        <button class="btn" id="logout">logout</button>
+      {{/if}}
+      {{!-- where user will see their saveFile --}}
+      <button class="btn" id="homepage">homepage</button>
+    </nav>
     {{{body}}}
+    <!-- Render script for logged in users only -->
     {{#if logged_in}}
       <script src="/js/logout.js"></script>
     {{/if}}
   </body>
-
 </html>
