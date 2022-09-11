@@ -34,6 +34,16 @@ Merchant.init
           key: 'id',
         },
     },
+    saveFileId:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: 
+        {
+          model: 'saveFile',
+          key: 'id',
+        },
+    },
   },
   {
     sequelize,
