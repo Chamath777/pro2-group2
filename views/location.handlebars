@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-auto">
+    {{! name of city }}
+    <h1>Welcome to ... </h1>
+  </div>
+</div>
+<section class="container">
+  <div class="row justify-center">
+    {{#each}}
+      {{! add item}}
+      <div class="card">
+        {{! name of safeFile in Header }}
+        <header></header>
+        <div class="card-body">
+          {{! image of object? }}
+          <img src="/images/" alt="" />
+          <button class="buy-item" data-id="{{item.id}}">Buy</button>
+          <button class="sell-item" data-id="{{item.id}}">Sell</button>
+        </div>
+      </div>
+    {{/each}}
+    </div>
+  </div>
+</section>
+<button class="world-map" id="">Go back to Map</button>

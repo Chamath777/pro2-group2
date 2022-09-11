@@ -6,11 +6,11 @@ const getCityHandler = async (event) => {
       method: "GET",
     });
 
-    //route to fill out
+    //route of the city to fill out
     if (response.ok) {
       document.location.replace("/");
     } else {
-      alert("Failed to load the city!");
+      alert(response.statusText);
     }
   }
 };

@@ -19,7 +19,7 @@ const newGameHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/");
     } else {
-      alert("Failed to create new game!");
+      alert(response.statusText);
     }
   }
 };
@@ -29,7 +29,8 @@ const deleteGameHandler = async (event) => {
   if (event.target.hasAttribute("data-id")) {
     const gameId = event.target.getAttribute("data-id");
 
-    const response = await fetch(`/api/games/${gameId}`, {
+    // route to fill out
+    const response = await fetch(`/api/${gameId}`, {
       method: "DELETE",
     });
 
@@ -37,11 +38,11 @@ const deleteGameHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/");
     } else {
-      alert("Failed to delete game");
+      alert(response.statusText);
     }
   }
 };
 
 document.querySelector(".new-game").addEventListener("submit", newGameHandler);
 
-document.querySelector(".game-list").addEventListener("click", deleteGameHandler);
+document.querySelector(".delete-game").addEventListener("click", deleteGameHandler);

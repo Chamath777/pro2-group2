@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-auto">
+    {{! name of user }}
+    <h1>Welcome, ... </h1>
+  </div>
+</div>
+<section class="container">
+  <div class="flex-row justify-center">
+    {{! to create a new game }}
+    <div class="card">
+      <header>Create a new game!</header>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="new-game-name">Name of new game:</label>
+          <input class="form-input" type="text" id="new-game" />
+        </div>
+        {{! button will direct to existing game }}
+        <div class="form-group">
+          <button class="btn new-game" type="submit">login</button>
+        </div>
+      </div>
+    </div>
+    {{! retrieve existing game }}
+    {{#each}}
+      <div class="card" data-id="">
+        {{! name of safeFile in Header }}
+        <header></header>
+        <div class="card-body">
+          {{! have a random image in the card to make it nicer  }}
+          <img src="/images/" alt="" />
+          {{! button will direct to existing game }}
+          <button class="existing-game">Go to game</button>
+          <button class="delete-game">Delete game</button>
+        </div>
+      </div>
+    {{/each}}
+  </div>
