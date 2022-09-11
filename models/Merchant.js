@@ -13,7 +13,7 @@ Merchant.init
         primaryKey: true,
         autoIncrement: true,
     },
-    //Buyer or seller or player
+    //NPC or player
     merchantType:
     {
         type: DataTypes.STRING,

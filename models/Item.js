@@ -13,11 +13,6 @@ Item.init
         primaryKey: true,
         autoIncrement: true,
     },
-    quantity:
-    {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
     price:
     {
         type: DataTypes.FLOAT,
