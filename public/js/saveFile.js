@@ -1,48 +1,38 @@
-// handler creating a new game/saveFile/character
-const newGameHandler = async (event) => {
-  event.preventDefault();
+async function NewGameHandler(event)
+{
+	event.preventDefault();
 
-  //querying form with field for name of new character/new game
-  const newGame = document.querySelector("#new-game").value.trim();
+	const newGameName = document.querySelector("#new-game").value.trim();
 
-  if (newGame) {
-    //route to fill out
-    const response = await fetch(`/api/`, {
-      method: "POST",
-      body: JSON.stringify({ newGame }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+	if (newGameName)
+	{
+		const response = await fetch(`/api/saveFile`, 
+		{
+			method: "POST",
+			body: JSON.stringify({ newGameName }),
+			headers: { "Content-Type": "application/json", },
+		});
 
-    //route to fill out
-    if (response.ok) {
-      document.location.replace("/");
-    } else {
-      alert(response.statusText);
-    }
-  }
-};
+		if (response.ok) document.location.replace("/worldMap");
+		else alert(response.statusText);
+	}
+}
 
-//deleting a game/saveFile/character
-const deleteGameHandler = async (event) => {
-  if (event.target.hasAttribute("data-id")) {
-    const gameId = event.target.getAttribute("data-id");
+async function DeleteGameHandler(event)
+{
+	if (event.target.hasAttribute("data-id")) 
+	{
+		const saveFileId = event.target.getAttribute("data-id");
 
-    // route to fill out
-    const response = await fetch(`/api/${gameId}`, {
-      method: "DELETE",
-    });
+		const response = await fetch(`/api/saveFile/${saveFileId}`, { method: "DELETE", });
 
-    //route to fill out
-    if (response.ok) {
-      document.location.replace("/");
-    } else {
-      alert(response.statusText);
-    }
-  }
-};
+		if (response.ok) document.location.replace("/playerHomePage");
+		else alert(response.statusText);
+	}
+}
 
-document.querySelector(".new-game").addEventListener("submit", newGameHandler);
+document.querySelector(".new-game")
+		.addEventListener("submit", NewGameHandler);
 
-document.querySelector(".delete-game").addEventListener("click", deleteGameHandler);
+document.querySelector(".delete-game")
+		.addEventListener("click", DeleteGameHandler);

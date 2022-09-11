@@ -1,5 +1,6 @@
 const router = require('express').Router();
-router.get("/",(req,res)=>{
-    res.render('login')
-})
+const publicRoutes = require('./publicRoutes');
+
+router.use('/', publicRoutes);
+
 module.exports = router;

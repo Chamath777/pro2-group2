@@ -36,4 +36,34 @@ async function RemoveItem(itemId)
     else alert('Failed to delete item');
 }
 
-module.exports = { AddItem, UpdateItem, RemoveItem };
+async function TransferItem(itemId, merchantToAddToId)
+{
+    const itemData = GetItemInformation(itemId);
+    UpdateItem(itemId, itemData.price, itemData.itemTypeId, merchantToAddToId);
+}
+
+async function GetPlayerInformation()
+{
+    const response = await fetch(`/api/merchant/player`, { method: 'GET', });
+
+    if (response.ok) return response;
+    else alert('Failed to create item');
+}
+
+async function GetItemInformation(itemId)
+{
+    const response = await fetch(`/api/item/${itemId}`, { method: 'GET', });
+
+    if (response.ok) return response;
+    else alert('Failed to find item');
+}
+
+async function GetCurrentMerchant()
+{
+    const response = await fetch(`/api/merchant/currentMerchant`, { method: 'GET', });
+
+    if (response.ok) return response;
+    else alert('Failed to find merchant');
+}
+
+module.exports = { AddItem, UpdateItem, RemoveItem, GetPlayerInformation, GetItemInformation, TransferItem, GetCurrentMerchant };

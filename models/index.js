@@ -40,6 +40,12 @@ Merchant.belongsTo(Location,
     onDelete: 'CASCADE'
 });
 
+Merchant.belongsTo(SaveFile,
+{
+    foreignKey: 'saveFileId',
+    onDelete: 'CASCADE'
+});
+
 Merchant.hasMany(Item,
 {
     foreignKey: 'merchantId',
