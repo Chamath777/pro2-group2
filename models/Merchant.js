@@ -13,7 +13,7 @@ Merchant.init
         primaryKey: true,
         autoIncrement: true,
     },
-    //Buyer or seller or player
+    //NPC or player
     merchantType:
     {
         type: DataTypes.STRING,
@@ -31,6 +31,16 @@ Merchant.init
         references: 
         {
           model: 'location',
+          key: 'id',
+        },
+    },
+    saveFileId:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: 
+        {
+          model: 'saveFile',
           key: 'id',
         },
     },

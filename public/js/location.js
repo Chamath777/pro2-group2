@@ -1,61 +1,41 @@
-const buyItemHandler = async (event) => {
-  if (event.target.hasAttribute("data-id")) {
-    const itemId = event.target.getAttribute("data-id");
+const { GetPlayerInformation, TransferItem, GetCurrentMerchant } = require("./itemController");
 
-    //route to fill out
-    const response = await fetch(`/${itemId}`, {
-      method: "POST",
-      body: JSON.stringify({ itemId }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+async function BuyItemHandler(event) 
+{
+	event.preventDefault();
 
-    //route to fill out
-    if (response.ok) {
-      document.location.replace("/");
-    } else {
-      alert(response.statusText);
-    }
-  }
+	if (event.target.hasAttribute("item-id")) 
+	{
+		const itemId = event.target.getAttribute("item-id");
+		const playerId = GetPlayerInformation().id;
+
+		TransferItem(itemId, playerId);
+	}
+}
+
+async function SellItemHandler(event)
+{
+	event.preventDefault();
+
+	if (event.target.hasAttribute("item-id"))
+	{
+		const itemId = event.target.getAttribute("item-id");
+		const merchantId = GetCurrentMerchant().id;
+
+		TransferItem(itemId, merchantId);
+	}
+}
+
+async function BackToMapHandler(event)
+{
+  	await fetch(`/worldMap`, { method: "GET", });
 };
 
-const sellItemHandler = async (event) => {
-  if (event.target.hasAttribute("data-id")) {
-    const itemId = event.target.getAttribute("data-id");
+document.querySelector(".world-map")
+        .addEventListener("click", BackToMapHandler);
 
-    //route to fill out
-    const response = await fetch(`/${itemId}`, {
-      method: "DELETE",
-    });
+document.querySelector(".buy-item")
+        .addEventListener("click", BuyItemHandler);
 
-    //route to fill out
-    if (response.ok) {
-      document.location.replace("/");
-    } else {
-      alert(response.statusText);
-    }
-  }
-};
-
-const backToMapHandler = async (event) => {
-  //route to fill out
-  const response = await fetch(`/api/`, {
-    method: "GET",
-  });
-
-  //route of the wordl map to fill out
-  if (response.ok) {
-    document.location.replace("/");
-  } else {
-    alert(response.statusText);
-  }
-};
-
-document
-  .querySelector(".world-map")
-  .addEventListener("click", backToMapHandler);
-
-document.querySelector(".buy-item").addEventListener("click", buyItemHandler);
-
-document.querySelector(".sell-item").addEventListener("click", sellItemHandler);
+document.querySelector(".sell-item")
+        .addEventListener("click", SellItemHandler);
