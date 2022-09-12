@@ -1,38 +1,52 @@
-async function NewGameHandler(event)
-{
-	event.preventDefault();
+async function NewGameHandler(event) {
+  event.preventDefault();
 
-	const newGameName = document.querySelector("#new-game").value.trim();
+  const newGameName = document.querySelector("#new-game").value.trim();
 
-	if (newGameName)
-	{
-		const response = await fetch(`/api/saveFile`, 
-		{
-			method: "POST",
-			body: JSON.stringify({ newGameName }),
-			headers: { "Content-Type": "application/json", },
-		});
+  if (newGameName) {
+    const response = await fetch(`/api/saveFile`, {
+      method: "POST",
+      body: JSON.stringify({ newGameName }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-		if (response.ok) document.location.replace("/worldMap");
-		else alert(response.statusText);
-	}
+    if (response.ok) document.location.replace(`/worldMap`);
+    else alert(response.statusText);
+  }
 }
 
-async function DeleteGameHandler(event)
-{
-	if (event.target.hasAttribute("data-id")) 
-	{
-		const saveFileId = event.target.getAttribute("data-id");
+async function DeleteGameHandler(event) {
+  if (event.target.hasAttribute("data-id")) {
+    const saveFileId = event.target.getAttribute("data-id");
 
-		const response = await fetch(`/api/saveFile/${saveFileId}`, { method: "DELETE", });
+    const response = await fetch(`/api/saveFile/${saveFileId}`, {
+      method: "DELETE",
+    });
 
-		if (response.ok) document.location.replace("/playerHomePage");
-		else alert(response.statusText);
-	}
+    if (response.ok) document.location.replace(`/playerHomePage`);
+    else alert(response.statusText);
+  }
 }
 
-document.querySelector(".new-game")
-		.addEventListener("submit", NewGameHandler);
+async function GoToExistingGameHandler(event) {
+  if (event.target.hasAttribute("data-id")) {
+    const saveFileId = event.target.getAttribute("data-id");
 
-document.querySelector(".delete-game")
-		.addEventListener("click", DeleteGameHandler);
+    const response = await fetch(`/api/saveFile/${saveFileId}`, {
+      method: "GET",
+    });
+  }
+
+  if (response.ok) document.location.replace(`/worldMap`);
+  else alert(response.statusText);
+}
+
+document.querySelector(".new-game").addEventListener("submit", NewGameHandler);
+
+document
+  .querySelector(".delete-game")
+  .addEventListener("click", DeleteGameHandler);
+
+document
+  .querySelector(".existing-game")
+  .addEventListener("click", GoToExistingGameHandler);
