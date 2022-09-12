@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-auto">
     {{! name of city }}
-    <h1>Welcome to ... </h1>
+    <h1>Welcome to {{location.name}}</h1>
   </div>
 </div>
 <section class="container">
@@ -9,8 +9,7 @@
     {{#each}}
       {{! add item}}
       <div class="card">
-        {{! name of safeFile in Header }}
-        <header></header>
+        <header>{{itemType.name}}</header>
         <div class="card-body">
           {{! image of object? }}
           <img src="/images/" alt="" />
