@@ -23,7 +23,7 @@ async function DeleteGameHandler(event) {
       method: "DELETE",
     });
 
-    if (response.ok) document.location.replace(`/playerHomePage`);
+    if (response.ok) document.location.replace(`/saveFile`);
     else alert(response.statusText);
   }
 }

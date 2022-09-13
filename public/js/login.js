@@ -11,11 +11,19 @@ async function LoginFormHandler(event) {
       headers: { "Content-Type": "application/json" },
     });
 
-    if (response.ok) document.location.replace("/playerHomePage");
+    if (response.ok) document.location.replace("/saveFile");
     else alert(response.statusText);
   }
+}
+
+function goToSignUpHandler() {
+  document.location.replace("/signup");
 }
 
 document
   .querySelector(".login-btn")
   .addEventListener("submit", LoginFormHandler);
+
+document
+  .querySelector(".signUp-page-btn")
+  .addEventListener("click", GoToSignUpHandler);
