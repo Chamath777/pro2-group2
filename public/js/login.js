@@ -16,14 +16,6 @@ async function LoginFormHandler(event) {
   }
 }
 
-function GoToSignUpHandler() {
-  document.location.replace("/signup");
-}
-
 document
   .querySelector(".login-btn")
   .addEventListener("submit", LoginFormHandler);
-
-document
-  .querySelector(".signUp-page-btn")
-  .addEventListener("click", GoToSignUpHandler);
