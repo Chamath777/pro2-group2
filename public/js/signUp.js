@@ -15,7 +15,7 @@ async function SignupFormHandler(event)
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		if (response.ok) document.location.replace('/playerHomePage');
+		if (response.ok) document.location.replace('/saveFile');
 		else alert(response.statusText);
 	}
 };
