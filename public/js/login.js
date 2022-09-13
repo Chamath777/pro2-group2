@@ -21,7 +21,7 @@ function GoToSignUpHandler() {
 }
 
 document
-  .querySelector(".login-btn")
+  .querySelector("#login-btn")
   .addEventListener("click", LoginFormHandler);
 
 document

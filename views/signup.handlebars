@@ -1,22 +1,40 @@
- <div class="col-md-6">
-    <h2>Signup</h2>
-    <form class="form signup-form">
-      <div class="form-group">
-        <label for="name-signup">Name:</label>
-        <input class="form-input" type="text" id="name-signup" />
+<section class="section">
+  <div class="columns is-mobile">
+    <div class="column is-8 is-offset-2 is-centered">
+      <div class="container">
+        <div class="card">
+          <div class="card-content">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" id="name-signup" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" id="email-signup" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="password" id="password-signup" />
+              </div>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button
+                  class="button has-background-dark has-text-white"
+                  id="signup-form-btn"
+                  type="submit"
+                >Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="email-signup">Email:</label>
-        <input class="form-input" type="text" id="email-signup" />
-      </div>
-      <div class="form-group">
-        <label for="password-signup">Password:</label>
-        <input class="form-input" type="password" id="password-signup" />
-      </div>
-      <div class="form-group">
-        <button class="btn signup-form-btn" type="submit">Sign Up</button>
-      </div>
-    </form>
+    </div>
   </div>
-</div>
+</section>
 <script src="/js/signUp.js"></script>

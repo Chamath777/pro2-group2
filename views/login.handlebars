@@ -1,20 +1,37 @@
-<div class="row">
-  <div class="col-md-6">
-    <form class="form login-form">
-      <div class="form-group">
-        <label for="email-login">Email:</label>
-        <input class="form-input" type="text" id="email-login" />
+<section class="section">
+  <div class="columns is-mobile">
+    <div class="column is-8 is-offset-2 is-centered">
+      <div class="container">
+        <div class="card">
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="text" id="email-login" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="password" id="password-login" />
+                </div>
+              </div>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button
+                    class="button is-link has-background-dark has-text-white"
+                    id="login-btn"
+                  >Login</button>
+                </div>
+              </div>
+              <h3>No account?</h3>
+              <button class="button signUp-page-btn" type="submit">Sign up</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password-login">Password:</label>
-        <input class="form-input" type="password" id="password-login" />
-      </div>
-      <div class="form-group">
-        <button class="btn login-btn" type="submit">Login</button>
-      </div>
-    </form>
-    <h3>No account?</h3>
-    <button class="btn signUp-page-btn" type="submit">Sign up</button>
+    </div>
   </div>
-</div>
+</section>
 <script src="/js/login.js"></script>
