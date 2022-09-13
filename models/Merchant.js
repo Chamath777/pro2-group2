@@ -24,6 +24,10 @@ Merchant.init
         type: DataTypes.STRING,
         allowNull: false,
     },
+    coins:
+    {
+        type: DataTypes.INTEGER,
+    },
     locationId:
     {
         type: DataTypes.INTEGER,

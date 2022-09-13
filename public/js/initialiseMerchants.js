@@ -1,6 +1,5 @@
-const { AddItem } = require("./itemController");
+const { AddItemRandomlyFromProduced } = require("./itemController");
 
-let merchantId = 0;
 let merchantNames = 
 [
     "Appoline",
@@ -11,32 +10,32 @@ let merchantNames =
     "Nav",
 ];
 
-async function InitialiseMerchants()
-{
-    const locationData = await GetLocationData();
-    for (let i = 0; i < locationData.length; i++) 
-    {
-        AddMerchant("npc", locationData[i].id, locationData[i]);
-    }
-}
-
-async function AddMerchant(merchantType, locationId, locationData)
+async function AddMerchant(merchantType, locationData, saveFileId)
 {
     const name = PickRandomName();
+    const locationId = locationData.id;
 
     const response = await fetch(`/api/merchant/`, 
     {
         method: 'POST',
-        body: JSON.stringify({ name, merchantType, locationId }),
+        body: JSON.stringify({ merchantType, name, coins: 0, locationId, saveFileId}),
         headers: {'Content-Type': 'application/json',},
     });
 
     if (response.ok === false) alert('Failed to create merchant');
-    else
+    else InitialiseMerchantStock(locationData, response.id);
+}
+
+async function AddPlayer(playerName, saveFileId)
+{
+    const response = await fetch(`/api/merchant/`, 
     {
-        merchantId++;
-        InitialiseMerchantStock(locationData);
-    }
+        method: 'POST',
+        body: JSON.stringify({ merchantType, name: playerName, coins: 100, locationId, saveFileId }),
+        headers: {'Content-Type': 'application/json',},
+    });
+
+    if (response.ok === false) alert('Failed to create player');
 }
 
 function PickRandomName()
@@ -45,45 +44,10 @@ function PickRandomName()
     return merchantNames[index];
 }
 
-function InitialiseMerchantStock(locationData)
+function InitialiseMerchantStock(merchantId)
 {
-    const producedItemIds = GetProducedItemTypesFromLocation(locationData);
     const numberOfItems = 6 + (Math.round(Math.random() * 15));
-
-    for (let i = 0; i < numberOfItems; i++)
-    {
-        const itemIdIndex = Math.round(Math.random() * (producedItemIds.length - 1));
-        AddItem(1000, producedItemIds[itemIdIndex], merchantId);
-    }
+    for (let i = 0; i < numberOfItems; i++) AddItemRandomlyFromProduced(merchantId);
 }
 
-async function GetLocationData()
-{
-    const data = await fetch(`/api/location`, { method: 'GET' });
-
-    console.log(data);
-    if (data.ok === false) alert('Failed to get item types from locations');
-    else return data;
-}
-
-function GetProducedItemTypesFromLocation(locationData)
-{
-    let producedItemIds = [];
-    for (let i = 0; i < locationData.itemTypes.length; i++) { producedItemIds.push(locationData.itemTypes[i].id); }
-    return producedItemIds;
-}
-
-async function GetProducedItemTypesFromLocationId(locationId)
-{
-    const data = await fetch(`/api/location${locationId}`, { method: 'GET' });
-
-    if (data.ok === false) alert('Failed to get item types from location');
-    else
-    {
-        let producedItemIds = [];
-        for (let i = 0; i < data.itemTypes.length; i++) { producedItemIds.push(data.itemTypes[i].id); }
-        return producedItemIds;
-    }
-}
-
-module.exports = { InitialiseMerchants };
+module.exports = { AddMerchant, AddPlayer };

@@ -7,9 +7,11 @@ async function BuyItemHandler(event)
 	if (event.target.hasAttribute("item-id")) 
 	{
 		const itemId = event.target.getAttribute("item-id");
-		const playerId = GetPlayerInformation().id;
+		const playerData = GetPlayerInformation();
+		const itemData = GetItemInformation(itemId);
 
-		TransferItem(itemId, playerId);
+		if (playerData.coins >= itemId.price) TransferItem(itemData, playerData.id, true);
+		else console.log("You can't afford that!");
 	}
 }
 
@@ -20,9 +22,9 @@ async function SellItemHandler(event)
 	if (event.target.hasAttribute("item-id"))
 	{
 		const itemId = event.target.getAttribute("item-id");
-		const merchantId = GetCurrentMerchant().id;
+		const itemData = GetItemInformation(itemId);
 
-		TransferItem(itemId, merchantId);
+		TransferItem(itemData, GetCurrentMerchant().id, false);
 	}
 }
 

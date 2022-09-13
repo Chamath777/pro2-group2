@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const { Location, Merchant, ProducedItemType, ItemType } = require('../../models');
+const { Location, Merchant, LocationItemInformation, ItemType } = require('../../models');
 const notFoundResponse = `No location was found with this id.`;
 
 router.get('/', async (req, res) => 
 {
 	try
 	{
-		const data = await Location.findAll({ include: [{ model: Merchant }, { model: ItemType, through: ProducedItemType }] });
+		const data = await Location.findAll({ include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] });
 		res.status(200).json(data);
 	}
 	catch (error) { res.status(500).json(error); }
@@ -16,7 +16,7 @@ router.get('/:id', async (req, res) =>
 {
 	try
 	{
-		const data = await Location.findByPk(req.params.id, { include: [{ model: Merchant }, { model: ProducedItemType }] });
+		const data = await Location.findByPk(req.params.id, { include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] });
 
 		if (data === null) { res.status(404).json({message: notFoundResponse}); return; }
 		else res.status(200).json(data);
@@ -28,7 +28,7 @@ router.get('/currentLocation', async (req, res) =>
 {
   try
   {
-    const data = await Location.findOne({where: {id: req.session.locationId}}, { include: [{ model: Merchant }, { model: ProducedItemType }] });
+    const data = await Location.findOne({where: {id: req.session.locationId}}, { include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] });
 
     if (data === null) { res.status(404).json({message: notFoundResponse}); return; }
     else res.status(200).json(data);

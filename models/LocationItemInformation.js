@@ -1,10 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
-
 const sequelize = require('../config/connection');
 
-class ProducedItemType extends Model {}
+class LocationItemInformation extends Model {}
 
-ProducedItemType.init
+LocationItemInformation.init
 ({
     id:
     {
@@ -12,6 +11,16 @@ ProducedItemType.init
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
+    },
+    isItemProducedHere:
+    {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    price:
+    {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     locationId: 
     {
@@ -43,4 +52,4 @@ ProducedItemType.init
     modelName: 'producedItemType',
 });
 
-module.exports = ProducedItemType;
+module.exports = LocationItemInformation;

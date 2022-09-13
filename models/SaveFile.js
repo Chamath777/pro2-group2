@@ -13,6 +13,12 @@ SaveFile.init
         primaryKey: true,
         autoIncrement: true,
     },
+    //What day this player is on, for simplicity's sake we'll have the day advance by one every time the player moves between cities
+    day:
+    {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
     userId:
     {
         type: DataTypes.INTEGER,
