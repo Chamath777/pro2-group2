@@ -30,6 +30,7 @@ router.post('/', async (req, res) =>
 	try
 	{
 		const data = await User.create(req.body);
+		console.log(data.id);
 		req.session.save(() => 
 		{
 			req.session.userId = data.id;

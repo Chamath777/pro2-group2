@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-auto">
     {{! name of user }}
-    <h1>Welcome, {{user.name}}</h1>
+    <h1>Welcome, {{userName}}</h1>
   </div>
 </div>
 <section class="container">
@@ -25,10 +25,11 @@
       <div class="card" data-id="{{saveFile.id}}">
         <header></header>
         <div class="card-body">
+          <p>{{saveFile.day}}</p>
           {{! have a random image in the card to make it nicer  }}
           <img src="/images/" alt="" />
           {{! button will direct to existing game }}
-          <button class="existing-game">Go to game</button>
+          <button class="existing-game">Continue game</button>
           <button class="delete-game">Delete game</button>
         </div>
       </div>

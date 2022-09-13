@@ -91,6 +91,14 @@ async function GeneratePriceForItem(itemTypeId, produced)
     }
 }
 
+async function GetCurrentUserData()
+{
+    const data = await fetch(`/api/user/${userId}`, { method: 'GET' });
+
+    if (data.ok === false) alert('Failed to get locations');
+    else return data;
+}
+
 module.exports = 
 { 
     GetAllItemTypes, 
@@ -102,5 +110,6 @@ module.exports =
     GetCurrentMerchant, 
     GetItemInformationFromLocation,
     GetItemInformationFromLocationId,
-    GeneratePriceForItem
+    GeneratePriceForItem,
+    GetCurrentUserData
 };
