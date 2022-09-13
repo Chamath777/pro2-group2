@@ -1,3 +1,5 @@
+//const { GetCurrentUserData } = require("./getData");
+
 async function NewGameHandler(event) {
   event.preventDefault();
 
@@ -41,12 +43,29 @@ async function GoToExistingGameHandler(event) {
   }
 }
 
-document.querySelector(".new-game").addEventListener("submit", NewGameHandler);
+function SetupUserSaveFiles()
+{
+  const deleteButtons = document.querySelectorAll(".delete-game");
+  const startButtons = document.querySelectorAll(".existing-game");
 
-document
-  .querySelector(".delete-game")
-  .addEventListener("click", DeleteGameHandler);
+  for (let i = 0; i < deleteButtons; i++) 
+  {
+    deleteButtons[i].addEventListener("click", DeleteGameHandler);
+  }
 
-document
-  .querySelector(".existing-game")
-  .addEventListener("click", GoToExistingGameHandler);
+  for (let i = 0; i < startButtons; i++) 
+  {
+    startButtons[i].addEventListener("click", GoToExistingGameHandler);
+  }
+}
+
+document.querySelector(".new-game").addEventListener("click", NewGameHandler);
+SetupUserSaveFiles();
+
+// document
+//   .querySelectorAll(".delete-game")
+//   .addEventListener("click", DeleteGameHandler);
+
+// document
+//   .querySelectorAll(".existing-game")
+//   .addEventListener("click", GoToExistingGameHandler);

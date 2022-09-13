@@ -5,12 +5,12 @@ const data =
   {
     name: "Alex",
     email: "alex@gmail.com",
-    password: "thisIsABadPassword"
+    password: "pass"
   },
   {
     name: "Appoline",
     email: "appoline@gmail.com",
-    password: "thisIsABadPassword"
+    password: "pass"
   },
 ];
 

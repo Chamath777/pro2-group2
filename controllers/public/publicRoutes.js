@@ -16,20 +16,21 @@ router.get("/signUp", async (req, res) =>
   else res.render("signUp");
 });
 
-router.get("/saveFile", RedirectToLogin, async (req, res) => {
+router.get("/saveFile", RedirectToLogin, async (req, res) => 
+{
   try {
     const userData = await User.findOne({ where: { id: req.session.userId }})
     const user = userData.get({ plain: true });
 
     const saveFileData = await SaveFile.findAll({
-      where: { userId: req.session.userId },
+      where: { userId: user.id },
     });
     const saveFiles = saveFileData.map((data) => data.get({ plain: true }));
 
     res.render("saveFile", {
-      ...saveFiles,
+      saveFiles,
+      userName: user.name,
       loggedIn: req.session.loggedIn,
-      user,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -44,7 +45,7 @@ router.get("/worldMap", RedirectToLogin, async (req, res) => {
     const locations = locationData.map((data) => data.get({ plain: true }));
 
     res.render("worldMap", {
-      ...locations,
+      locations,
       loggedIn: req.session.loggedIn,
     });
   } catch (err) {
@@ -62,7 +63,7 @@ router.get("/location/:id", RedirectToLogin, async (req, res) => {
     const location = locationData.get({ plain: true });
 
     res.render("location", {
-      ...location,
+      location,
       loggedIn: req.session.loggedIn,
     });
   } catch (err) {
