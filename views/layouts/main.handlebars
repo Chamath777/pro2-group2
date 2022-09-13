@@ -29,16 +29,16 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <nav>
-      {{#if logged_in}}
-        <button class="btn" id="logout">logout</button>
-        {{! where user will see their saveFile }}
-        <button class="btn" id="homepage">homepage</button>
+   <nav>
+      {{#if loggedIn}}
+        <button class="btn" id="logout">Logout</button>
       {{/if}}
+      {{! where user will see their saveFile }}
+      <button class="btn" id="homepage">Homepage</button>
     </nav>
     {{{body}}}
     <!-- Render script for logged in users only -->
-    {{#if logged_in}}
+    {{#if loggedIn}}
       <script src="/js/logout.js"></script>
     {{/if}}
   </body>
