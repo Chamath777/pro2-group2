@@ -4,7 +4,7 @@ const Location = require('./Location');
 const Merchant = require('./Merchant');
 const ItemType = require('./ItemType');
 const Item = require('./Item');
-const ProducedItemType = require('./ProducedItemType');
+const LocationItemInformation = require('./LocationItemInformation');
 
 User.hasMany(SaveFile, 
 {
@@ -66,7 +66,7 @@ ItemType.belongsToMany(Location,
 {
     through:
     {
-        model: ProducedItemType,
+        model: LocationItemInformation,
         unique: false,
     },
 });
@@ -75,9 +75,9 @@ Location.belongsToMany(ItemType,
 {
     through:
     {
-        model: ProducedItemType,
+        model: LocationItemInformation,
         unique: false,
     },
 });
 
-module.exports = { User, SaveFile, Location, Merchant, ItemType, Item, ProducedItemType };
+module.exports = { User, SaveFile, Location, Merchant, ItemType, Item, LocationItemInformation };

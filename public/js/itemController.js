@@ -1,3 +1,5 @@
+const { GetPlayerInformation, GetMerchant, GetItemInformationFromLocationId, GeneratePriceForItem } = require("./getData");
+
 async function AddItem(price, itemTypeId, merchantId)
 {
     const response = await fetch(`/api/merchant/`, 
@@ -36,34 +38,37 @@ async function RemoveItem(itemId)
     else alert('Failed to delete item');
 }
 
-async function TransferItem(itemId, merchantToAddToId)
+async function TransferItem(itemData, merchantData, isPlayerBuying)
 {
-    const itemData = GetItemInformation(itemId);
-    UpdateItem(itemId, itemData.price, itemData.itemTypeId, merchantToAddToId);
+    UpdateItem(itemData.id, itemData.price, itemData.itemTypeId, merchantData.id);
+
+    const playerInfo = GetPlayerInformation();
+    if (isPlayerBuying) playerInfo.coins -= itemData.price;
+    else playerInfo.coins += itemData.price;
 }
 
-async function GetPlayerInformation()
+//Called each day to stop merchants from ending up with way too many items
+async function RemoveRandomItem(merchantId)
 {
-    const response = await fetch(`/api/merchant/player`, { method: 'GET', });
+    const merchantItems = GetMerchant(merchantId).items;
+    const indexToRemove = Math.floor(Math.random() * (merchantItems.length - 1));
 
-    if (response.ok) return response;
-    else alert('Failed to create item');
+    const response = await fetch(`/api/item/${merchantItems[indexToRemove]}`, { method: 'DELETE' });
+
+    if (response.ok) console.log(`Deleted the item: ${itemTypeId}`);
+    else alert('Failed to delete item');
 }
 
-async function GetItemInformation(itemId)
+//Called each day to give merchants new stock
+async function AddItemRandomlyFromProduced(merchantId)
 {
-    const response = await fetch(`/api/item/${itemId}`, { method: 'GET', });
+    const merchantData = GetMerchant(merchantId);
+    const itemInformation = GetItemInformationFromLocationId(merchantData.locationId);
+    const produced = [];
+    for (let i = 0; i < itemInformation; i++) { if (itemInformation[i].produced) produced.push(itemInformation[i]); }
+    const index = Math.floor(Math.random() * (produced.length - 1));
 
-    if (response.ok) return response;
-    else alert('Failed to find item');
+    AddItem(GeneratePriceForItem(true), produced[index].id, merchantId);
 }
 
-async function GetCurrentMerchant()
-{
-    const response = await fetch(`/api/merchant/currentMerchant`, { method: 'GET', });
-
-    if (response.ok) return response;
-    else alert('Failed to find merchant');
-}
-
-module.exports = { AddItem, UpdateItem, RemoveItem, GetPlayerInformation, GetItemInformation, TransferItem, GetCurrentMerchant };
+module.exports = { AddItem, UpdateItem, RemoveItem, TransferItem, RemoveRandomItem, AddItemRandomlyFromProduced };

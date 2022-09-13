@@ -20,11 +20,11 @@ async function SeedAll()
   await SeedSaveFiles();
   console.log('\n----- SAVE FILES SEEDED -----\n');
 
-  await SeedLocations();
-  console.log('\n----- LOCATIONS SEEDED -----\n');
+  //await SeedLocations();
+  //console.log('\n----- LOCATIONS SEEDED -----\n');
 
-  await SeedProducedItemTypes();
-  console.log('\n----- PRODUCED ITEM TYPES SEEDED -----\n');
+  //await SeedProducedItemTypes();
+  //console.log('\n----- PRODUCED ITEM TYPES SEEDED -----\n');
 
   process.exit(0);
 };
