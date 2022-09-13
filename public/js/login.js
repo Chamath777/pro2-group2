@@ -10,19 +10,19 @@ async function LoginFormHandler(event) {
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },
     });
-
+    
     if (response.ok) document.location.replace("/saveFile");
     else alert(response.statusText);
   }
 }
 
-function goToSignUpHandler() {
-  document.location.replace("/signup");
+function GoToSignUpHandler() {
+  document.location.replace("/signUp");
 }
 
 document
   .querySelector(".login-btn")
-  .addEventListener("submit", LoginFormHandler);
+  .addEventListener("click", LoginFormHandler);
 
 document
   .querySelector(".signUp-page-btn")

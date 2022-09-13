@@ -11,7 +11,7 @@
       <header>Create a new game!</header>
       <div class="card-body">
         <div class="form-group">
-          <label for="new-game-name">Name of new game:</label>
+          <label for="new-game-name">Name of new character:</label>
           <input class="form-input" type="text" id="new-game" />
         </div>
         {{! button will direct to existing game }}
@@ -21,7 +21,7 @@
       </div>
     </div>
     {{! retrieve existing game }}
-    {{#each}}
+    {{#each saveFiles as |saveFile|}}
       <div class="card" data-id="{{saveFile.id}}">
         <header></header>
         <div class="card-body">
@@ -34,4 +34,5 @@
       </div>
     {{/each}}
   </div>
-<script src="../public/js/saveFile.js"></script>
+</div>
+<script src="/js/saveFile.js"></script>

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Merchant, SaveFile, Location } = require("../../models");
+const { Merchant, SaveFile, Location, User } = require("../../models");
 const RedirectToLogin = require("../../utils/redirectToLogin");
 
 router.get("/", async (req, res) => {
@@ -10,21 +10,26 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/signup", async (req, res) => {
+router.get("/signUp", async (req, res) => 
+{
   if (req.session.loggedIn) res.redirect("/saveFile");
-  else res.render("signup");
+  else res.render("signUp");
 });
 
 router.get("/saveFile", RedirectToLogin, async (req, res) => {
   try {
+    const userData = await User.findOne({ where: { id: req.session.userId }})
+    const user = userData.get({ plain: true });
+
     const saveFileData = await SaveFile.findAll({
       where: { userId: req.session.userId },
     });
-    const saveFiles = saveFiles.map((data) => data.get({ plain: true }));
+    const saveFiles = saveFileData.map((data) => data.get({ plain: true }));
 
     res.render("saveFile", {
       ...saveFiles,
       loggedIn: req.session.loggedIn,
+      user,
     });
   } catch (err) {
     res.status(500).json(err);

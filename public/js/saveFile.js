@@ -35,10 +35,10 @@ async function GoToExistingGameHandler(event) {
     const response = await fetch(`/api/saveFile/${saveFileId}`, {
       method: "GET",
     });
-  }
 
-  if (response.ok) document.location.replace(`/worldMap`);
-  else alert(response.statusText);
+    if (response.ok) document.location.replace(`/worldMap`);
+    else alert(response.statusText);
+  }
 }
 
 document.querySelector(".new-game").addEventListener("submit", NewGameHandler);
