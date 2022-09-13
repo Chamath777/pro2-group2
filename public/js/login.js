@@ -16,7 +16,7 @@ async function LoginFormHandler(event) {
   }
 }
 
-function goToSignUpHandler() {
+function GoToSignUpHandler() {
   document.location.replace("/signup");
 }
 
