@@ -30,7 +30,6 @@ router.post('/', async (req, res) =>
 	try
 	{
 		const data = await User.create(req.body);
-		console.log(data.id);
 		req.session.save(() => 
 		{
 			req.session.userId = data.id;
@@ -46,20 +45,19 @@ router.post('/login', async (req, res) =>
 {
     try 
     {
-      const userData = await User.findOne({ where: { email: req.body.email } });
-      if (userData === null) { res.status(400).json({ message: wrongInformationResponse}); return; }
+		const userData = await User.findOne({ where: { email: req.body.email } });
+		if (!userData) { res.status(400).json({ message: wrongInformationResponse}); return; }
 
-      const validPassword = userData.CheckPassword(req.body.password);
-      if (validPassword === null) { res.status(400).json({ message: wrongInformationResponse}); return; }
+		const validPassword = await userData.CheckPassword(req.body.password);
+		if (!validPassword) { res.status(400).json({ message: wrongInformationResponse}); return; }
 
-      req.session.save(() => 
-	  {
-        req.session.userId = userData.id;
-        req.session.loggedIn = true;
-        
-        res.json({ user: userData, message: 'You are now logged in!' });
-      });
-
+		req.session.save(() => 
+		{
+			req.session.userId = userData.id;
+			req.session.loggedIn = true;
+			
+			res.json({ user: userData, message: 'You are now logged in!' });
+		});
     } 
 	catch (err) { res.status(400).json(err); }
 });

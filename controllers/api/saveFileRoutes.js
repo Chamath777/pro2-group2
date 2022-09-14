@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, SaveFile } = require('../../models');
 const notFoundResponse = `No user was found with this id.`;
-const { InitialiseSaveFile } = require("../../public/js/initialiseSaveFile");
+//const { InitialiseSaveFile } = require("../../public/js/initialiseSaveFile");
 
 router.get('/', async (req, res) => 
 {
@@ -39,8 +39,7 @@ router.post('/', async (req, res) =>
 {
 	try
 	{
-		const data = await SaveFile.create(req.body.userId);
-		InitialiseSaveFile(req.body.playerName, data.id);
+		const data = await SaveFile.create({userId: req.session.userId});
 		res.status(200).json(data);
 	}
 	catch (error) { res.status(500).json(error); }
