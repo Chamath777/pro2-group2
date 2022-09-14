@@ -1,4 +1,4 @@
-const { AddItemRandomlyFromProduced } = require("./itemController");
+import { AddItemRandomlyFromProduced } from "./itemController.mjs";
 
 let merchantNames = 
 [
@@ -10,7 +10,7 @@ let merchantNames =
     "Nav",
 ];
 
-async function AddMerchant(merchantType, locationData, saveFileId)
+async function AddMerchant(locationData, saveFileId)
 {
     const name = PickRandomName();
     const locationId = locationData.id;
@@ -18,20 +18,21 @@ async function AddMerchant(merchantType, locationData, saveFileId)
     const response = await fetch(`/api/merchant/`, 
     {
         method: 'POST',
-        body: JSON.stringify({ merchantType, name, coins: 0, locationId, saveFileId}),
+        body: JSON.stringify({ merchantType: "npc", name: name, coins: 0, locationId, saveFileId}),
         headers: {'Content-Type': 'application/json',},
     });
-
+    const responseData = await response.json();
+    
     if (response.ok === false) alert('Failed to create merchant');
-    else InitialiseMerchantStock(locationData, response.id);
+    else InitialiseMerchantStock(responseData.id);
 }
 
-async function AddPlayer(playerName, saveFileId)
+async function AddPlayer(playerName, saveFileId, locationId)
 {
     const response = await fetch(`/api/merchant/`, 
     {
         method: 'POST',
-        body: JSON.stringify({ merchantType, name: playerName, coins: 100, locationId, saveFileId }),
+        body: JSON.stringify({ merchantType: "player", name: playerName, coins: 100, locationId: locationId, saveFileId }),
         headers: {'Content-Type': 'application/json',},
     });
 
@@ -50,4 +51,4 @@ function InitialiseMerchantStock(merchantId)
     for (let i = 0; i < numberOfItems; i++) AddItemRandomlyFromProduced(merchantId);
 }
 
-module.exports = { AddMerchant, AddPlayer };
+export { AddMerchant, AddPlayer };

@@ -15,7 +15,7 @@ Item.init
     },
     price:
     {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     itemTypeId:
@@ -26,6 +26,7 @@ Item.init
         {
           model: 'itemType',
           key: 'id',
+          unique: false,
         },
     },
     merchantId:
@@ -34,7 +35,7 @@ Item.init
         allowNull: false,
         references: 
         {
-          model: 'itemType',
+          model: 'merchant',
           key: 'id',
           unique: false,
         },

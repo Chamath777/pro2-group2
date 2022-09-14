@@ -37,13 +37,11 @@ Location.hasMany(Merchant,
 Merchant.belongsTo(Location,
 {
     foreignKey: 'locationId',
-    onDelete: 'CASCADE'
 });
 
 Merchant.belongsTo(SaveFile,
 {
     foreignKey: 'saveFileId',
-    onDelete: 'CASCADE'
 });
 
 Merchant.hasMany(Item,

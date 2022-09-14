@@ -1,39 +1,66 @@
-<div class="row">
-  <div class="col-auto">
-    {{! name of user }}
-    <h1>Welcome, {{userName}}</h1>
-  </div>
-</div>
-<section class="container">
-  <div class="flex-row justify-center">
-    {{! to create a new game }}
-    <div class="card">
-      <header>Create a new game!</header>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="new-game-name">Name of new character:</label>
-          <input class="form-input" type="text" id="new-game" />
-        </div>
-        {{! button will direct to existing game }}
-        <div class="form-group">
-          <button class="btn new-game" type="submit">Create</button>
+<section class="section">
+  <div class="columns is-mobile is-centered">
+    <div class="column is-narrow">
+      <div class="container">
+        <div class="content">
+          <div
+            class="box title is-2 is-light is-large has-text-centered"
+          >Welcome,
+            {{userName}}</div>
         </div>
       </div>
     </div>
-    {{! retrieve existing game }}
-    {{#each saveFiles as |saveFile|}}
-      <div class="card" data-id="{{saveFile.id}}">
-        <header></header>
-        <div class="card-body">
-          <p>{{saveFile.day}}</p>
-          {{! have a random image in the card to make it nicer  }}
-          <img src="/images/" alt="" />
-          {{! button will direct to existing game }}
-          <button class="existing-game">Continue game</button>
-          <button class="delete-game">Delete game</button>
+  </div>
+  <div class="columns is-mobile is-centered">
+    <div class="column is-narrow">
+      <div class="container">
+        <div class="card mt-4">
+          <div class="card-content">
+            <div class="content">
+              <h2 class="subtitle">Create a new game!</h2>
+              <div class="card-body">
+                <div class="field">
+                  <label class="label new-game-name">Name of new character</label>
+                  <div class="control">
+                    <input class="input" type="text" id="new-game" />
+                  </div>
+                </div>
+                {{! button will direct to existing game }}
+                <div class="field">
+                  <div class="control">
+                    <button
+                      class="button mt-3 new-game"
+                      type="submit"
+                    >Create</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    {{/each}}
+    </div>
+    {{#if saveFiles}}
+      {{#each saveFiles as |saveFile|}}
+        <div class="column is-narrow">
+          <div class="container">
+            <div class="card mt-4" data-id="{{saveFile.id}}">
+              <div class="card-content">
+                <div class="content">
+                  <h2 class="subtitle">Game number: {{saveFile.id}}</h2>
+                  <div class="card-body">
+                    <p class="has-text-centered">Day: {{saveFile.day}}</p>
+                    {{! button will direct to existing game }}
+                    <button class="button existing-game">Continue game</button>
+                    <button class="button delete-game">Delete game</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
   </div>
-</div>
-<script src="/js/saveFile.js"></script>
+</section>
+<script type="module" src="/js/saveFile.mjs"></script>
