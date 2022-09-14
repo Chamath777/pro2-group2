@@ -74,6 +74,16 @@ The project was designed to fulfil the following requirements:
 
 ## Installation
 
+Required Packages:
+
+* NodeJS
+
+* MySQL
+
+* Handlebars.JS
+
+Enter the following commands in the terminal:
+
 ```md
 npm i
 npm run seed
@@ -82,6 +92,8 @@ npm start
 <br/>
 
 ## Usage
+
+After completing the steps in the installation section, new players will be required to create a user ID/account and then start a new game.
 
 <br/>
 
@@ -92,8 +104,10 @@ npm start
 ## Contributors
 Alex Scrivener, Appoline Cogan, Huw Richmond, Chamath De Silva
 
+View the [Presentation slides](https://docs.google.com/presentation/d/1FsnH6WcCx5L4SBj87xBRRjMUimduqcfGt-27REr1_aU/edit?usp=sharing)
+
 <br/>
 
 ## Contact
 
-https://github.com/Wombattree/MerchantGame
+[Github Repository](https://github.com/Wombattree/MerchantGame)
