@@ -99,6 +99,7 @@ After completing the steps in the installation section, new players will be requ
 
 ## License
 
+MIT
 <br/>
 
 ## Contributors
