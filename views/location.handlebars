@@ -1,60 +1,90 @@
 <section class="section">
-  <div class="columns is-mobile is-centered">
-    <div class="column is-narrow">
+  <div class="columns is-centered">
+    <div class="column is-mobile is-narrow">
       <div class="container">
         <div class="content">
-          <div
-            class="box title is-2 is-light is-large has-text-centered">
-            Welcome to {{location.name}}</div>
+          <div class="box title is-light has-text-centered mb-6 mt-6">
+            Welcome to
+            {{location.name}}</div>
         </div>
       </div>
     </div>
   </div>
-  <div class="columns is-mobile is-centered">
-     {{!-- a card for each item will appear with a button to buy --}}
-      {{#each merchantInfo.items as |merchantItem|}}
-        <div class="column is-narrow">
-          <div class="container">
-            <div class="card mt-4" data-id="{{merchantItem.id}}">
-              <div class="card-content">
-                <div class="content">
-                  <h2 class="subtitle">{{merchantItem.name}}</h2>
-                  <h2 class="subtitle">{{merchantItem.price}} coins</h2>
-                  <div class="card-body">
-                    <img src="/images/" alt="" />
-                    <button class="button buy-item" item-id="{{merchantItem.id}}" item-price="{{merchantItem.price}}">Buy</button>
+  <div class="columns is-centered">
+    <div class="column is-6">
+      <div class="container">
+        <div class="content">
+          <div class="box is-light has-text-centered">
+            <header class="title is-3">Name of merchant</header>
+          </div>
+        </div>
+      </div>
+      {{! a card for each item will appear with a button to buy }}
+      <div class="columns is-flex-wrap-wrap is-mobile is-centered">
+        {{#each merchantInfo.items as |merchantItem|}}
+          <div class="column is-mobile is-4">
+            <div class="container">
+              <div class="card mt-4" data-id="{{merchantItem.id}}">
+                <div class="card-content">
+                  <div class="content">
+                    <h2 class="subtitle">{{merchantItem.name}}</h2>
+                    <h2 class="subtitle">{{merchantItem.price}} coins</h2>
+                    <div class="card-body">
+                      <img src="/images/" alt="" />
+                      <button
+                        class="button buy-item"
+                        item-id="{{merchantItem.id}}"
+                        item-price="{{merchantItem.price}}"
+                      >Buy</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="column is-6">
+      <div class="container">
+        <div class="content">
+          <div class="box is-light has-text-centered">
+            <header class="title is-3">
+              You have
+              {{playerInfo.coins}}
+              coins</header>
+          </div>
         </div>
-      {{/each}}
-  </div>
-  <div class="columns is-mobile is-centered">
-    {{!-- a card for each item will appear with a button to sell --}}
-    <div class="column is-narrow">You have {{playerInfo.coins}} coins</div>
-      {{#each playerInfo.items as |playerItem|}}
-        <div class="column is-narrow">
-          <div class="container">
-            <div class="card mt-4" data-id="{{playerItem.id}}">
-              <div class="card-content">
-                <div class="content">
-                  <h2 class="subtitle">{{playerItem.name}}</h2>
-                  <h2 class="subtitle">{{playerItem.price}} coins</h2>
-                  <div class="card-body">
-                    <img src="/images/" alt="" />
-                    <button class="button sell-item" item-id="{{playerItem.id}}" item-price="{{playerItem.price}}">Sell</button>
+      </div>
+      <div class="columns is-flex-wrap-wrap is-mobile is-centered">
+        {{! a card for each item will appear with a button to sell }}
+        {{#each playerInfo.items as |playerItem|}}
+          <div class="column is-mobile is-4">
+            <div class="container">
+              <div class="card mt-4" data-id="{{playerItem.id}}">
+                <div class="card-content">
+                  <div class="content">
+                    <h2 class="subtitle">{{playerItem.name}}</h2>
+                    <h2 class="subtitle">{{playerItem.price}} coins</h2>
+                    <div class="card-body">
+                      <img src="/images/" alt="" />
+                      <button
+                        class="button sell-item"
+                        item-id="{{playerItem.id}}"
+                        item-price="{{playerItem.price}}"
+                      >Sell</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      {{/each}}
+        {{/each}}
+      </div>
+    </div>
   </div>
 </section>
 <footer class="has-text-centered">
-<button class="button world-map">Go back to Map</button>
+  <button class="button world-map mb-6 mt-6">Go back to Map</button>
 </footer>
 <script type="module" src="/js/location.mjs"></script>
