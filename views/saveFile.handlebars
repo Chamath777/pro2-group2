@@ -4,7 +4,7 @@
       <div class="container">
         <div class="content">
           <div
-            class="box title is-2 is-light is-large has-text-centered"
+            class="box title is-2 is-light is-large has-text-centered p-5"
           >Welcome,
             {{userName}}</div>
         </div>
@@ -20,16 +20,16 @@
             <div class="content">
               <h2 class="subtitle">Create a new game!</h2>
               <div class="card-body">
-                <div class="field">
+                <div class="field has-text-centered">
                   <label class="label new-game-name">Name of new character</label>
                   <div class="control">
                     <input class="input" type="text" id="new-game" />
                   </div>
                 </div>
-                <div class="field">
-                  <div class="control">
+                <div class="field ">
+                  <div class="control has-text-centered">
                     <button
-                      class="button mt-3 new-game"
+                      class="button has-background-danger-dark has-text-white mt-5 mb-3 new-game"
                       type="submit"
                     >Create</button>
                   </div>
@@ -52,8 +52,12 @@
                   <div class="card-body">
                     <p class="has-text-centered">Day: {{saveFile.day}}</p>
                     {{! button will direct to existing game }}
-                    <button class="button existing-game">Continue game</button>
-                    <button class="button delete-game">Delete game</button>
+                    <button
+                      class="button has-background-danger-dark has-text-white existing-game"
+                    >Continue game</button>
+                    <button
+                      class="button has-background-danger-dark has-text-white delete-game"
+                    >Delete game</button>
                   </div>
                 </div>
               </div>
