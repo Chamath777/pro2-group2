@@ -11,18 +11,18 @@
     </div>
   </div>
   <div class="columns is-mobile is-centered">
-    {{!-- a card for each item will appear with a button to buy and to sell  --}}
-      {{#each itemTypes as |itemType}}
+     {{!-- a card for each item will appear with a button to buy --}}
+      {{#each merchantInfo.items as |merchantItem|}}
         <div class="column is-narrow">
           <div class="container">
-            <div class="card mt-4" data-id="{{item.id}}">
+            <div class="card mt-4" data-id="{{merchantItem.id}}">
               <div class="card-content">
                 <div class="content">
-                  <h2 class="subtitle">{{itemType.name}}</h2>
+                  <h2 class="subtitle">{{merchantItem.name}}</h2>
+                  <h2 class="subtitle">{{merchantItem.price}} coins</h2>
                   <div class="card-body">
                     <img src="/images/" alt="" />
-                    <button class="button buy-item" item-id="{{item.id}}">Buy</button>
-                    <button class="button sell-item" item-id="{{item.id}}">Sell</button>
+                    <button class="button buy-item" item-id="{{merchantItem.id}}" item-price="{{merchantItem.price}}">Buy</button>
                   </div>
                 </div>
               </div>
@@ -30,10 +30,31 @@
           </div>
         </div>
       {{/each}}
-    {{/if}}
+  </div>
+  <div class="columns is-mobile is-centered">
+    {{!-- a card for each item will appear with a button to sell --}}
+    <div class="column is-narrow">You have {{playerInfo.coins}} coins</div>
+      {{#each playerInfo.items as |playerItem|}}
+        <div class="column is-narrow">
+          <div class="container">
+            <div class="card mt-4" data-id="{{playerItem.id}}">
+              <div class="card-content">
+                <div class="content">
+                  <h2 class="subtitle">{{playerItem.name}}</h2>
+                  <h2 class="subtitle">{{playerItem.price}} coins</h2>
+                  <div class="card-body">
+                    <img src="/images/" alt="" />
+                    <button class="button sell-item" item-id="{{playerItem.id}}" item-price="{{playerItem.price}}">Sell</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
   </div>
 </section>
 <footer class="has-text-centered">
 <button class="button world-map">Go back to Map</button>
 </footer>
-<script src="/js/location.js"></script>
+<script type="module" src="/js/location.mjs"></script>

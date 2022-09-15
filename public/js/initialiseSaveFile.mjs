@@ -1,8 +1,8 @@
 import { InitialiseLocations } from "./initialiseLocations.mjs";
 
-function InitialiseSaveFile(playerName, saveFileId)
+async function InitialiseSaveFile(playerName, saveFileId)
 {
-    InitialiseLocations(playerName, saveFileId);
+    await InitialiseLocations(playerName, saveFileId);
 }
 
 export { InitialiseSaveFile };

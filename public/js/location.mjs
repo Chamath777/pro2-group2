@@ -1,0 +1,70 @@
+import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant } from "./getData.mjs";
+import { TransferItem, UpdatePlayerCoins } from "./itemController.mjs";
+
+async function BuyItemHandler(event) 
+{
+	event.preventDefault();
+
+	if (event.target.hasAttribute("item-id")) 
+	{
+		const itemId = await event.target.getAttribute("item-id");
+		const itemPrice = await event.target.getAttribute("item-price");
+		const playerData = await GetPlayerInformation();
+		const itemData = await GetItemInformation(itemId);
+		
+		if (playerData.coins >= itemPrice) 
+		{
+			await TransferItem(itemData, playerData.id);
+			const newPlayerCoins = parseInt(playerData.coins) - parseInt(itemPrice);
+			await UpdatePlayerCoins(newPlayerCoins, playerData.id);
+			location.reload();
+		}
+		else console.log("You can't afford that!");
+	}
+}
+
+async function SellItemHandler(event)
+{
+	event.preventDefault();
+
+	if (event.target.hasAttribute("item-id"))
+	{
+		const itemId = await event.target.getAttribute("item-id");
+		const itemPrice = await event.target.getAttribute("item-price");
+		const merchant = await GetCurrentMerchant();
+		const itemData = await GetItemInformation(itemId);
+		const playerData = await GetPlayerInformation();
+
+		await TransferItem(itemData, merchant.id);
+		const newPlayerCoins = parseInt(playerData.coins) + parseInt(itemPrice);
+		await UpdatePlayerCoins(newPlayerCoins, playerData.id);
+
+		location.reload();
+	}
+}
+
+async function BackToMapHandler()
+{
+	document.location.replace(`/worldMap`);
+};
+
+function SetupBuyAndSellButtons()
+{
+	const buyButtons = document.querySelectorAll(".buy-item");
+	const sellButtons = document.querySelectorAll(".sell-item");
+
+	for (let i = 0; i < buyButtons.length; i++)
+	{
+		buyButtons[i].addEventListener("click", BuyItemHandler);
+	}
+
+	for (let i = 0; i < sellButtons.length; i++) 
+	{
+		sellButtons[i].addEventListener("click", SellItemHandler);
+	}
+}
+
+document.querySelector(".world-map")
+        .addEventListener("click", BackToMapHandler);
+
+SetupBuyAndSellButtons();

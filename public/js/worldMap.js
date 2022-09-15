@@ -10,5 +10,13 @@ async function GetCityHandler(event)
 	}
 };
 
-document.querySelector(".cities")
-        .addEventListener("click", GetCityHandler);
+function SetupLocationButtons()
+{
+	const locationButtons = document.querySelectorAll(".cities");
+	for (let i = 0; i < locationButtons.length; i++)
+	{
+		locationButtons[i].addEventListener("click", GetCityHandler);
+	}
+}
+
+SetupLocationButtons();

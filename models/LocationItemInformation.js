@@ -49,7 +49,7 @@ LocationItemInformation.init
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    modelName: 'producedItemType',
+    modelName: 'locationItemInformation',
 });
 
 module.exports = LocationItemInformation;

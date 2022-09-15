@@ -17,8 +17,8 @@ async function SeedAll()
   await SeedUsers();
   console.log('\n----- USERS SEEDED -----\n');
 
-  await SeedSaveFiles();
-  console.log('\n----- SAVE FILES SEEDED -----\n');
+  //await SeedSaveFiles();
+  //console.log('\n----- SAVE FILES SEEDED -----\n');
 
   //await SeedLocations();
   //console.log('\n----- LOCATIONS SEEDED -----\n');
