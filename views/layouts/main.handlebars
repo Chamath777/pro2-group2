@@ -53,7 +53,8 @@
         id="navbar"
         class="navbar-menu has-background-dark is-transparent has-text-white">
         <div class="navbar-end">
-                {{#if loggedIn}}
+          {{!-- if the user is logged in they will see the logout and homepage button --}}
+          {{#if loggedIn}}
           <div class="navbar-item">
             <button class="button navbar-item has-text-white has-background-dark is-inverted is-size-4 mr-2"
               id="homepage">
@@ -71,6 +72,7 @@
     <!-- Render script for logged in users only -->
     {{#if loggedIn}}
       <script src="/js/logout.js"></script>
+      {{!-- this script will triger the burger menu on smaller screen and the homepage button on navbar --}}
       <script src="../js/homePage.js"></script>
     {{/if}}
   </body>
