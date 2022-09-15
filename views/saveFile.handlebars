@@ -11,12 +11,13 @@
       </div>
     </div>
   </div>
-  <div class="columns is-mobile is-centered">
-    <div class="column is-narrow">
+  <div class="columns is-centered">
+    <div class="column">
       <div class="container">
+         {{! card to create a new game }}
         <div class="card mt-4">
           <div class="card-content">
-            <div class="content">
+            <div class="content has-text-centered">
               <h2 class="subtitle">Create a new game!</h2>
               <div class="card-body">
                 <div class="field">
@@ -40,19 +41,20 @@
         </div>
       </div>
     </div>
+    {{! each saveFile will appear as a card with a button to continue game and a button to delete game }}
     {{#if saveFiles}}
       {{#each saveFiles as |saveFile|}}
-        <div class="column is-narrow">
+        <div class="column">
           <div class="container">
             <div class="card mt-4" data-id="{{saveFile.id}}">
-              <div class="card-content">
+              <div class="card-content has-text-centered">
                 <div class="content">
-                  <h2 class="subtitle">Game number: {{saveFile.id}}</h2>
+                  <h2 class="subtitle">Game {{saveFile.id}}</h2>
                   <div class="card-body">
-                    <p class="has-text-centered">Day: {{saveFile.day}}</p>
+                    <p class="has-text-centered">Day {{saveFile.day}}</p>
                     {{! button will direct to existing game }}
-                    <button class="button existing-game">Continue game</button>
-                    <button class="button delete-game">Delete game</button>
+                    <button class="button has-background-danger-dark has-text-white existing-game mt-2 existing-game" data-id="{{saveFile.id}}">Continue game</button>
+                    <button class="button has-background-danger-dark has-text-white existing-game mt-2 delete-game" data-id="{{saveFile.id}}">Delete game</button>
                   </div>
                 </div>
               </div>

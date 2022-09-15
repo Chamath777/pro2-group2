@@ -13,10 +13,10 @@ async function NewGameHandler(event)
 
 		if (response.ok)
 		{
-			InitialiseSaveFile(newGameName, responseData.id);
-			document.location.replace(`/worldMap`);
+			await InitialiseSaveFile(newGameName, responseData.id);
+			document.location.replace(`/worldMap/${responseData.id}`);
 		}
-		else alert(response.statusText);
+		else console.log(response.statusText);
 	}
 }
 
@@ -37,8 +37,8 @@ async function DeleteGameHandler(event)
 		const saveFileId = event.target.getAttribute("data-id");
 		const response = await DeleteSaveFile(saveFileId);
 
-		if (response.ok) document.location.replace(`/saveFile`);
-		else alert(response.statusText);
+		if (response.ok) location.reload();
+		else console.log(response.statusText);
 	}
 }
 
@@ -48,17 +48,13 @@ async function DeleteSaveFile(saveFileId)
 	return response;
 }
 
-async function GoToExistingGameHandler(event) {
+async function GoToExistingGameHandler(event) 
+{
   if (event.target.hasAttribute("data-id")) 
   {
     const saveFileId = event.target.getAttribute("data-id");
-
-    const response = await fetch(`/api/saveFile/${saveFileId}`, {
-      method: "GET",
-    });
-
-    if (response.ok) document.location.replace(`/worldMap`);
-    else alert(response.statusText);
+    if (saveFileId) document.location.replace(`/worldMap/${saveFileId}`);
+    else console.log("No save file id");
   }
 }
 

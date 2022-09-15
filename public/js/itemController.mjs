@@ -1,4 +1,4 @@
-import { GetPlayerInformation, GetMerchant, GetItemInformationFromLocationId, GeneratePriceForItem, GetAllItemTypes } from "./getData.mjs";
+import { GetMerchant, GetItemInformationFromLocationId, GeneratePriceForItem } from "./getData.mjs";
 
 async function AddItem(price, itemTypeId, merchantId)
 {
@@ -12,12 +12,12 @@ async function AddItem(price, itemTypeId, merchantId)
     if (!response.ok) console.log(`Failed to create item: ${itemTypeId}`);
 }
 
-async function UpdateItem(itemId, price, itemTypeId, merchantId)
+async function UpdateItem(itemId, itemTypeId, merchantId)
 {
     const response = await fetch(`/api/item/${itemId}`, 
     {
         method: 'PUT',
-        body: JSON.stringify({ price, itemTypeId, merchantId }),
+        body: JSON.stringify({ itemTypeId, merchantId }),
         headers: {'Content-Type': 'application/json',},
     });
 
@@ -30,13 +30,21 @@ async function RemoveItem(itemId)
     if (!response.ok) console.log(`Failed to delete item: ${itemTypeId}`);
 }
 
-async function TransferItem(itemData, merchantData, isPlayerBuying)
+async function TransferItem(itemData, merchantId)
 {
-    UpdateItem(itemData.id, itemData.price, itemData.itemTypeId, merchantData.id);
+    UpdateItem(itemData.id, itemData.itemTypeId, merchantId);
+}
 
-    const playerInfo = await GetPlayerInformation();
-    if (isPlayerBuying) playerInfo.coins -= itemData.price;
-    else playerInfo.coins += itemData.price;
+async function UpdatePlayerCoins(newValue, playerId)
+{
+    const response = await fetch(`/api/merchant/${playerId}`, 
+    {
+        method: 'PUT',
+        body: JSON.stringify({ coins: newValue }),
+        headers: {'Content-Type': 'application/json',},
+    });
+
+    if (!response.ok) console.log(`Failed to update player coins`);
 }
 
 //Called each day to stop merchants from ending up with way too many items
@@ -58,4 +66,4 @@ async function AddItemRandomlyFromProduced(merchantId)
     await AddItem(price, itemInformation[index].id, merchantId);
 }
 
-export { AddItem, UpdateItem, RemoveItem, TransferItem, RemoveRandomItem, AddItemRandomlyFromProduced };
+export { AddItem, UpdateItem, RemoveItem, TransferItem, RemoveRandomItem, AddItemRandomlyFromProduced, UpdatePlayerCoins };

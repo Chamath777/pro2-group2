@@ -13,6 +13,15 @@ router.get('/', async (req, res) =>
 	catch (error) { res.status(500).json(error); }
 });
 
+router.get('/session', async (req, res) => 
+{
+	try
+	{
+		res.status(200).json(`Save File ID: ${req.session.saveFileId}, User ID: ${req.session.userId}, Location ID: ${req.session.locationId}`);
+	}
+	catch (error) { res.status(500).json(error); }
+});
+
 router.get('/current', async (req, res) => 
 {
 	try
