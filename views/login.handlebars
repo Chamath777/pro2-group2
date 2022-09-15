@@ -1,18 +1,42 @@
 <section class="section">
-  <div class="login-form">
-		<img alt="" class="avatar" src="https://i.postimg.cc/zDyt7KCv/a1.jpg">
-		<h2>MerchantGame Player Login</h2>
-		<form action="">
-			<p>Email</p><input placeholder="Enter Email" type="email">
-			<p>Password</p>
-      <input placeholder="Enter Password" type="password">
-      
-      <input type="submit" value="Sign in">
-      
-      <p><input type="checkbox">Remember Me</p>
-       <input type="submit" value="New Player Sign up">
-
-		</form>
-	</div>
+  <div class="columns is-mobile is-centered">
+    <div class="column is-three-quarters-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+      <div class="container">
+        {{! card element contains form for login}}
+        <div class="card mt-6">
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="text" id="email-login" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="password" id="password-login" />
+                </div>
+              </div>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button
+                    class="button is-link has-background-dark has-text-white"
+                    id="login-btn"
+                  >Login</button>
+                </div>
+              </div>
+              <div class="container mt-5"> </div>
+                <p>No account?</p>
+                <button
+                class="button has-background-dark has-text-white signUp-page-btn"
+                type="submit">Sign up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <script src="/js/login.js"></script>

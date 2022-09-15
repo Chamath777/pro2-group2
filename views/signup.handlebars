@@ -1,18 +1,42 @@
 <section class="section">
-<div class="login-form">
-		<img alt="" class="avatar" src="https://i.postimg.cc/zDyt7KCv/a1.jpg">
-		<h2>New MerchantGame Player</h2>
-		<form action="">
-            <p>Name</p><input placeholder="Enter Name" type="text">
-			<p>Email</p><input placeholder="Enter Email" type="email">
-
-            <p>Date of Birth</p><input placeholder="Date" type="date"> 
-			<p>Password</p><input placeholder="Enter Password" type="password"> <input type="submit" value="Sign up">
-
-
-      <p><input type="checkbox">Remember Me</p>
-
-		</form>
-	</div>
+  <div class="columns is-mobile is-centered">
+    <div
+      class="column is-three-quarters-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+      <div class="container">
+        {{! card element contains form for signUp }}
+        <div class="card mt-6">
+          <div class="card-content">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" id="name-signup" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" id="email-signup" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="password" id="password-signup" />
+              </div>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button
+                  class="button has-background-dark has-text-white"
+                  id="signup-form-btn"
+                  type="submit"
+                >Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <script src="/js/signUp.js"></script>
