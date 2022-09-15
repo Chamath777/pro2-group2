@@ -5,3 +5,10 @@ body {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
 }
+
+.is-vcentered {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
