@@ -12,3 +12,6 @@ body {
   transform: translateY(-50%);
 }
 
+.is-disabled {
+  display: none;
+}
