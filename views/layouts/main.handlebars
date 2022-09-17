@@ -60,15 +60,12 @@
           {{!-- if the user is logged in they will see the logout and homepage button --}}
           {{#if loggedIn}}
           <div class="navbar-item">
-            <button class="button navbar-item has-text-white has-background-dark is-inverted is-size-4 mr-2"
-              id="homepage">
-              Homepage
-            </button>
-            <button class="button navbar-item has-text-white has-background-dark is-size-4"
-            id="logout">Logout</a>
-              {{/if}}
-            </button>
+            {{#unless onHomePage}}
+            <button class="button navbar-item has-text-white has-background-dark is-inverted is-size-5 mr-2" id="homepage">Homepage</button>
+            {{/unless}}
+            <button class="button navbar-item has-text-white has-background-dark is-size-5" id="logout">Logout</button>
           </div>
+          {{/if}}
         </div>
       </div>
     </nav>

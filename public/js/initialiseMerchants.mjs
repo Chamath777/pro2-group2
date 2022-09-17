@@ -1,3 +1,4 @@
+import { GetMerchant } from "./getData.mjs";
 import { AddItem, AddItemRandomlyFromProduced } from "./itemController.mjs";
 
 let merchantNames = 
@@ -60,15 +61,16 @@ function PickRandomName()
 
 async function InitialisePlayerItems(merchantId)
 {
-    for (let i = 0; i < 2; i++) await AddItem(1, merchantId);
-    for (let i = 0; i < 2; i++) await AddItem(2, merchantId);
-    await AddItem(3, merchantId);
+    await AddItem(1, merchantId, 2);
+    await AddItem(2, merchantId, 2);
+    await AddItem(3, merchantId, 1);
 }
 
 async function InitialiseMerchantStock(merchantId)
 {
+    const merchantData = await GetMerchant(merchantId);
     const numberOfItems = 6 + (Math.round(Math.random() * 15));
-    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantId);
+    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantData);
 }
 
 export { AddMerchant, AddPlayer };

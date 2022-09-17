@@ -1,10 +1,13 @@
-function goToHomePageHandler() {
+function GoToHomePageHandler() 
+{
   document.location.replace("/saveFile");
 }
 
-document
-  .querySelector("#homepage")
-  .addEventListener("click", goToHomePageHandler);
+function SetupHomePageButton() 
+{
+  const homePageButton = document.querySelector("#homepage");
+  if (homePageButton) homePageButton.addEventListener("click", GoToHomePageHandler);
+}
 
 //this is to make the navbar burger button clickable
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,3 +22,5 @@ document.addEventListener("DOMContentLoaded", () => {
     navBarMenu.classList.toggle("is-active");
   });
 });
+
+SetupHomePageButton();

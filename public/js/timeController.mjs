@@ -1,13 +1,16 @@
 import { AddItemRandomlyFromProduced, RemoveRandomItem, RemoveItem } from "./itemController.mjs";
-import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems } from "./getData.mjs";
+import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems, GetNumberOfPlayerEdibleItems, GetSessionInformation } from "./getData.mjs";
 import { UpdateSaveFile, UpdatePlayerCoins } from "./updateData.mjs";
 
 async function NewDay()
 {
     const success = await UseResources();
-    if (success === false) return;
-    await UpdateMerchantStock();
-    await IncreaseDayCounter();
+    if (success === true)
+    {
+        await UpdateMerchantStock();
+        await IncreaseDayCounter();
+    }
+    else GameOver(success);
 }
 
 async function UpdateMerchantStock()
@@ -16,14 +19,24 @@ async function UpdateMerchantStock()
 
     for (let i = 0; i < merchantsData.length; i++)
     {
-        const merchantId = merchantsData[i].id;
-        
-        if (merchantsData[i].items.length > 10) RemoveRandomNumberOfItems(3, merchantId);
-        else if (merchantsData[i].items.length > 30) RemoveRandomNumberOfItems(8, merchantId);
+        const itemCount = GetMerchanItemQuantity(merchantsData[i]);
 
-        if (merchantsData[i].items.length < 30) AddRandomNumberOfItems(5, merchantId);
-        else if (merchantsData[i].items.length < 10) AddRandomNumberOfItems(10, merchantId);
+        if (itemCount > 10) RemoveRandomNumberOfItems(3, merchantsData[i]);
+        else if (itemCount > 30) RemoveRandomNumberOfItems(8, merchantsData[i]);
+
+        if (itemCount < 30) AddRandomNumberOfItems(5, merchantsData[i]);
+        else if (itemCount < 10) AddRandomNumberOfItems(10, merchantsData[i]);
     }
+}
+
+function GetMerchanItemQuantity(merchantData)
+{
+    let count = 0;
+    for (let i = 0; i < merchantData.items.length; i++) 
+    {
+        count += merchantData.items.quantity;
+    }
+    return count;
 }
 
 async function IncreaseDayCounter()
@@ -33,21 +46,21 @@ async function IncreaseDayCounter()
     await UpdateSaveFile(newDayCount, currentSaveFile.id);
 }
 
-async function AddRandomNumberOfItems(maxItems, merchantId)
+async function AddRandomNumberOfItems(maxItems, merchantData)
 {
     let itemsToAdd = Math.floor(Math.random() * maxItems);
     for (let j = 0; j < itemsToAdd; j++)
     {
-        await AddItemRandomlyFromProduced(merchantId);
+        await AddItemRandomlyFromProduced(merchantData);
     }
 }
 
-async function RemoveRandomNumberOfItems(maxItems, merchantId)
+async function RemoveRandomNumberOfItems(maxItems, merchantData)
 {
     let itemsToRemove = Math.floor(Math.random() * maxItems);
     for (let j = 0; j < itemsToRemove; j++)
     {
-        await RemoveRandomItem(merchantId);
+        await RemoveRandomItem(merchantData);
     }
 }
 
@@ -57,26 +70,42 @@ async function UseResources()
 
     const foodConsumption = await GetPlayerFoodConsumption(playerData);
     const consumeFoodResponse = await ConsumeFood(foodConsumption, playerData.id);
-    if (consumeFoodResponse === null) { GameOver("You did not have enough food to feed everyone! Game Over"); return false; }
+    if (consumeFoodResponse === false) { return "noFood"; }
 
     const wages = await GetPlayerWages(playerData);
     const payWagesResponse = await PayWages(playerData, wages, playerData.id);
-    if (payWagesResponse === null) { GameOver("You did not have enough money to pay wages! Game Over"); return false; }
-    
+    if (payWagesResponse === false) { return "noMoney"; }
+
     return true;
 }
 
-async function ConsumeFood(amountConsumed, playerId)
+async function ConsumeFood(amountToConsume, playerId)
 {
     const playerEdibleItems = await GetPlayerEdibleItems(playerId);
-    for (let i = 0; i < amountConsumed; i++) 
+    const numberOfEdibleItems = await GetNumberOfPlayerEdibleItems(playerEdibleItems);
+
+    if (amountToConsume <= numberOfEdibleItems)
     {
-        if (amountConsumed <= playerEdibleItems.length)
+        let amountConsumed = 0;
+        for (let i = 0; i < playerEdibleItems.length; i++) 
         {
-            await RemoveItem(playerEdibleItems[i].id);
+            let quantityOfItem = playerEdibleItems[i].quantity;
+            //If this item doesn't have enough to reach the amountToConsume
+            const amountRemaining = amountToConsume - amountConsumed;
+            if (amountRemaining > quantityOfItem)
+            {
+                await RemoveItem(playerEdibleItems[i].itemTypeId, playerId, quantityOfItem);
+                amountConsumed += quantityOfItem;
+            }
+            else
+            {
+                await RemoveItem(playerEdibleItems[i].itemTypeId, playerId, amountRemaining);
+                return true;
+            }
         }
-        else return null;
+        return true;
     }
+    else return false;
 }
 
 async function PayWages(playerData, amountPaid, playerId)
@@ -85,13 +114,22 @@ async function PayWages(playerData, amountPaid, playerId)
     if (amountPaid <= playerData.coins)
     {
         await UpdatePlayerCoins(newCoinCount, playerId);
+        return true;
     }
-    else return null;
+    else return false;
 }
 
 async function GameOver(message)
 {
-    console.log(message);
+    await DeleteCurrentSaveFile();
+    document.location.replace(`/gameOver/${message}`);
+}
+
+async function DeleteCurrentSaveFile()
+{
+    const sessionInfo = await GetSessionInformation();
+    const response = await fetch(`/api/saveFile/${sessionInfo.saveFileId}`, { method: 'DELETE', });
+    if (!response.ok) console.log(`Failed to delete save file: ${sessionInfo.saveFileId}`);
 }
 
 export { NewDay };

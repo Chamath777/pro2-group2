@@ -46,7 +46,7 @@ async function AddProducedItemTypes(locationId)
     const itemTypesToProduce = [];
     for (let i = 0; i < itemTypes.length; i++) { itemTypesToProduce.push(false); }
     //Choose a random number of items to be produced
-    const numberOfItemTypes = 3 + Math.floor(Math.random() * 2);
+    const numberOfItemTypes = 4 + Math.floor(Math.random() * 4);
     //Set some of the items to be produced
     for (let i = 0; i < numberOfItemTypes; i++)
     {

@@ -10,12 +10,13 @@ async function BuyItemHandler(event)
 	{
 		const itemId = await event.target.getAttribute("item-id");
 		const itemPrice = await event.target.getAttribute("item-price");
+		const merchantData = await GetCurrentMerchant();
 		const playerData = await GetPlayerInformation();
 		const itemData = await GetItemInformation(itemId);
 		
-		if (playerData.coins >= itemPrice) 
+		if (playerData.coins >= itemPrice)
 		{
-			await TransferItem(itemData, playerData.id);
+			await TransferItem(itemData.itemTypeId, playerData.id, merchantData.id, 1);
 			const newPlayerCoins = parseInt(playerData.coins) - parseInt(itemPrice);
 			await UpdatePlayerCoins(newPlayerCoins, playerData.id);
 			location.reload();
@@ -36,7 +37,7 @@ async function SellItemHandler(event)
 		const itemData = await GetItemInformation(itemId);
 		const playerData = await GetPlayerInformation();
 
-		await TransferItem(itemData, merchant.id);
+		await TransferItem(itemData.itemTypeId, merchant.id, playerData.id, 1);
 		const newPlayerCoins = parseInt(playerData.coins) + parseInt(itemPrice);
 		await UpdatePlayerCoins(newPlayerCoins, playerData.id);
 

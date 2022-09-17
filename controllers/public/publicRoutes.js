@@ -26,9 +26,10 @@ router.get("/saveFile", RedirectToLogin, async (req, res) =>
 		const saveFiles = saveFileData.map((data) => data.get({ plain: true }));
 
 		res.render("saveFile", {
-		saveFiles,
-		userName: user.name,
-		loggedIn: req.session.loggedIn,
+			saveFiles,
+			userName: user.name,
+			loggedIn: req.session.loggedIn,
+			onHomePage: true,
 		});
 	}
 	catch (err) { res.status(500).json(err); }
@@ -48,6 +49,7 @@ router.get("/worldMap", RedirectToLogin, async (req, res) =>
 			res.render("worldMap", {
 				locations,
 				loggedIn: req.session.loggedIn,
+				onHomePage: false,
 			});
 		}
 	} 
@@ -70,6 +72,7 @@ router.get("/worldMap/:id", RedirectToLogin, async (req, res) =>
 		  res.render("worldMap", {
 			  locations,
 			  loggedIn: req.session.loggedIn,
+			  onHomePage: false,
 		  });
 	  });
 	} 
@@ -112,7 +115,25 @@ router.get("/location/:id", RedirectToLogin, async (req, res) =>
 				merchantInfo,
 				playerInfo,
 				loggedIn: req.session.loggedIn,
+				onHomePage: false,
 			});
+		});
+	} 
+	catch (err) { res.status(500).json(err); }
+});
+
+router.get("/gameOver/:id", RedirectToLogin, async (req, res) => 
+{
+	try 
+	{
+		let gameOverMessage;
+		if (req.params.id === "noFood") gameOverMessage = "You did not have enough food to feed everyone! Game Over";
+		else gameOverMessage = "You did not have enough money to pay wages! Game Over";
+
+		res.render("gameOver", {
+			gameOverMessage,
+			loggedIn: req.session.loggedIn,
+			onHomePage: false,
 		});
 	} 
 	catch (err) { res.status(500).json(err); }
@@ -124,6 +145,7 @@ async function AddItemInformation(merchant, location)
 	{
 		const itemType = await ItemType.findByPk(merchant.items[i].itemTypeId);
 		merchant.items[i].name = itemType.name;
+		merchant.items[i].edible = itemType.edible;
 		for (let j = 0; j < location.itemTypes.length; j++) 
 		{
 			if (itemType.id === location.itemTypes[j].locationItemInformation.itemTypeId)

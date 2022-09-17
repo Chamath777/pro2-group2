@@ -44,6 +44,13 @@ async function GetAllMerchantsInCurrentSaveFile()
     else return responseData;
 }
 
+async function GetMerchantItemTypeStatus(merchantId, itemTypeId)
+{
+    const doesMerchantAlreadyHaveItemTypeResponse = await fetch(`/api/merchant/doesMerchantAlreadyHaveItemType/${merchantId}/${itemTypeId}`, { method: 'GET', });
+    const doesMerchantAlreadyHaveItemTypeData = await doesMerchantAlreadyHaveItemTypeResponse.json();
+    return doesMerchantAlreadyHaveItemTypeData;
+}
+
 async function GetCurrentMerchant()
 {
     const response = await fetch(`/api/merchant/currentMerchant`, { method: 'GET', });
@@ -94,6 +101,16 @@ async function GetPlayerEdibleItems(playerId)
     else console.log('Failed to get playerFoodItems');
 }
 
+async function GetNumberOfPlayerEdibleItems(items)
+{
+    let count = 0;
+    for (let i = 0; i < items.length; i++) 
+    {
+        count += items[i].quantity;
+    }
+    return count;
+}
+
 async function GetItemInformation(itemId)
 {
     const response = await fetch(`/api/item/${itemId}`, { method: 'GET', });
@@ -123,6 +140,21 @@ async function GetItemInformationFromLocationId(locationId)
 {
     const response = await fetch(`/api/location/${locationId}`, { method: 'GET' });
     const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get item types from location');
+    else return responseData.itemTypes;
+}
+
+async function GetProducedItemInformationFromLocationId(locationId)
+{
+    const response = await fetch(`/api/location/${locationId}`, { method: 'GET' });
+    const responseData = await response.json();
+
+    let producedHere = [];
+    for (let i = 0; i < responseData.itemTypes.length; i++) 
+    {
+        if (responseData.itemTypes[i].isItemProducedHere) producedHere.push(responseData.itemTypes[i]);
+    }
 
     if (response.ok === false) console.log('Failed to get item types from location');
     else return responseData.itemTypes;
@@ -175,20 +207,24 @@ async function GetSessionInformation()
 }
 
 export { 
-    GetAllItemTypes, 
+    GetAllItemTypes,
+    GetAllPlayerFoodItems,
     GetMerchant, 
     GetAllMerchants,
     GetAllMerchantsInCurrentSaveFile,
+    GetMerchantItemTypeStatus,
     GetPlayerInformation,
     GetPlayerCarryingCapacity,
     GetPlayerFoodConsumption,
     GetPlayerWages,
     GetPlayerEdibleItems,
+    GetNumberOfPlayerEdibleItems,
     GetItemInformation, 
     GetAllLocations, 
     GetCurrentMerchant, 
     GetItemInformationFromLocation,
     GetItemInformationFromLocationId,
+    GetProducedItemInformationFromLocationId,
     GeneratePriceForItem,
     GetCurrentUserData,
     GetCurrentSaveFile,
