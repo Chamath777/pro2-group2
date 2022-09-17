@@ -7,6 +7,15 @@ async function GetAllItemTypes()
     else return responseData;
 }
 
+async function GetAllPlayerFoodItems()
+{
+    const response = await fetch(`/api/itemType/`, {method: 'GET',});
+    const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get itemTypes');
+    else return responseData;
+}
+
 async function GetMerchant(merchantId)
 {
     const response = await fetch(`/api/merchant/${merchantId}`, {method: 'GET',});
@@ -19,6 +28,16 @@ async function GetMerchant(merchantId)
 async function GetAllMerchants()
 {
     const response = await fetch(`/api/merchant/`, {method: 'GET',});
+    const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get merchants');
+    else return responseData;
+}
+
+async function GetAllMerchantsInCurrentSaveFile()
+{
+    //Doesn't get the player
+    const response = await fetch(`/api/merchant/inCurrentSaveFile`, {method: 'GET',});
     const responseData = await response.json();
 
     if (response.ok === false) console.log('Failed to get merchants');
@@ -41,6 +60,38 @@ async function GetPlayerInformation()
 
     if (response.ok) return responseData;
     else console.log('Failed to create item');
+}
+
+async function GetPlayerCarryingCapacity(playerData)
+{
+    let carryingCapacity = 0;
+    for (let i = 0; i < playerData.workers; i++) carryingCapacity += 100;
+    for (let i = 0; i < playerData.horses; i++) carryingCapacity += 250;
+    return carryingCapacity;
+}
+
+async function GetPlayerFoodConsumption(playerData)
+{
+    let foodConsumption = 0;
+    for (let i = 0; i < playerData.workers; i++) foodConsumption += 1;
+    for (let i = 0; i < playerData.horses; i++) foodConsumption += 1;
+    return foodConsumption;
+}
+
+async function GetPlayerWages(playerData)
+{
+    let wages = 0;
+    for (let i = 0; i < playerData.workers; i++) wages += 3;
+    return wages;
+}
+
+async function GetPlayerEdibleItems(playerId)
+{
+    const response = await fetch(`/api/item/playerFoodItems/${playerId}`, { method: 'GET', });
+    const responseData = await response.json();
+
+    if (response.ok) return responseData;
+    else console.log('Failed to get playerFoodItems');
 }
 
 async function GetItemInformation(itemId)
@@ -105,16 +156,41 @@ function GetRandomRange(min, max)
     return min + (Math.floor(Math.random() * delta));
 }
 
+async function GetCurrentSaveFile()
+{
+    const response = await fetch(`/api/saveFile/current`, {method: 'GET',});
+    const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get save file');
+    else return responseData;
+}
+
+async function GetSessionInformation()
+{
+    const response = await fetch(`/api/saveFile/session`, {method: 'GET',});
+    const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get session info');
+    else return responseData;
+}
+
 export { 
     GetAllItemTypes, 
     GetMerchant, 
-    GetAllMerchants, 
-    GetPlayerInformation, 
+    GetAllMerchants,
+    GetAllMerchantsInCurrentSaveFile,
+    GetPlayerInformation,
+    GetPlayerCarryingCapacity,
+    GetPlayerFoodConsumption,
+    GetPlayerWages,
+    GetPlayerEdibleItems,
     GetItemInformation, 
     GetAllLocations, 
     GetCurrentMerchant, 
     GetItemInformationFromLocation,
     GetItemInformationFromLocationId,
     GeneratePriceForItem,
-    GetCurrentUserData
+    GetCurrentUserData,
+    GetCurrentSaveFile,
+    GetSessionInformation
 };

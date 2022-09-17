@@ -18,6 +18,15 @@ ItemType.init
         type: DataTypes.STRING,
         allowNull: false,
     },
+    weight:
+    {
+      	type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+	edible:
+    {
+      	type: DataTypes.BOOLEAN,
+    },
     basePrice:
     {
         type: DataTypes.FLOAT,

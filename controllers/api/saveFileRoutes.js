@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { User, SaveFile } = require('../../models');
 const notFoundResponse = `No user was found with this id.`;
-//const { InitialiseSaveFile } = require("../../public/js/initialiseSaveFile");
 
 router.get('/', async (req, res) => 
 {
@@ -17,7 +16,7 @@ router.get('/session', async (req, res) =>
 {
 	try
 	{
-		res.status(200).json(`Save File ID: ${req.session.saveFileId}, User ID: ${req.session.userId}, Location ID: ${req.session.locationId}`);
+		res.status(200).json({saveFileId: req.session.saveFileId, userId: req.session.userId, locationId: req.session.locationId});
 	}
 	catch (error) { res.status(500).json(error); }
 });

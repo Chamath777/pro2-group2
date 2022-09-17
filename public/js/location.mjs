@@ -1,5 +1,6 @@
-import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant } from "./getData.mjs";
-import { TransferItem, UpdatePlayerCoins } from "./itemController.mjs";
+import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant, GetSessionInformation } from "./getData.mjs";
+import { UpdatePlayerCoins } from "./updateData.mjs";
+import { TransferItem } from "./itemController.mjs";
 
 async function BuyItemHandler(event) 
 {
@@ -45,7 +46,8 @@ async function SellItemHandler(event)
 
 async function BackToMapHandler()
 {
-	document.location.replace(`/worldMap`);
+	const sessionData = await GetSessionInformation();
+	document.location.replace(`/worldMap/${sessionData.saveFileId}`);
 };
 
 function SetupBuyAndSellButtons()
