@@ -28,19 +28,12 @@ body:before {
 	padding: 80px 40px;
 	background: rgba(0, 0, 0, 0.5);
 }
-.avatar {
-	position: absolute;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	overflow: hidden;
-	top: calc(-80px/2);
-	left: 160px;
-}
-.login-form h2 {
+
+
+.card h2 {
 	margin: 0;
 	padding: 0 0 20px;
-	color: #fff;
+	color:blanchedalmond;
 	text-align: center;
 	text-transform: uppercase;
 }
@@ -50,28 +43,28 @@ body:before {
 	margin: 0;
 	padding: 0;
 	font-weight: bold;
-	color: rgb(7, 6, 6);
+	color:burlywood;
 	font-size: 16px;
 }
-.login-form input {
+.card input {
 	width: 100%;
 	margin-bottom: 20px;
 }
-.content [type=email],[type=password],[type=text],[type=date] {
+.card [type=email],[type=password],[type=text],[type=date] {
 	border: none;
-	border-bottom: 1px solid #fff;
+	border-bottom: 1px solid burlywood;
 	background: transparent;
 	outline: none;
 	height: 40px;
-	color:floralwhite;
+	color:bl;
 	font-size: 20px;
 	font: bold;
 }
 .card-input[type=submit][type=submit] {
 	height: 40px;
-	color: #fff;
+	color: rgb(108, 75, 75);
 	font-size: 20px;
-	background:brown;
+	background:grey;
 	cursor: pointer;
 	border-radius: 25px;
 	border: none;
@@ -79,7 +72,7 @@ body:before {
 	margin-top: 20%;
 }
 .card-a {
-	color: #fff;
+	color:antiquewhite;
 	font-size: 14px;
 	font-weight: bold;
 	text-decoration: none;
@@ -93,29 +86,25 @@ input[type=checkbox] {
 	border:solid black;
 	border-radius: 10px;
 	background: rgba(0, 0, 0, 0.5);
-	background-image: url("../images/door.jpeg");
-	background-position: center center;
+	background-position: center center;	
+}
 
-	
-	
-}
-image{
-	opacity: 0.4;
-}
 .button{
-	border: white;
-	color: grey;
+	border:blanchedalmond;
+	
 }
+
+
 
 .card label{
 	font-size: 16px;
-	color: black;
+	color:blanchedalmond;
 
 }
 
 
 
-.login-form-member {
+.card-member {
 	position: absolute;
 	top: 50%;
 	left: 50%;
