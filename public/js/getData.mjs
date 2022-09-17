@@ -71,7 +71,7 @@ async function GetPlayerInformation()
 
 async function GetPlayerCarryingCapacity(playerData)
 {
-    let carryingCapacity = 0;
+    let carryingCapacity = 100;
     for (let i = 0; i < playerData.workers; i++) carryingCapacity += 100;
     for (let i = 0; i < playerData.horses; i++) carryingCapacity += 250;
     return carryingCapacity;
@@ -79,17 +79,12 @@ async function GetPlayerCarryingCapacity(playerData)
 
 async function GetPlayerFoodConsumption(playerData)
 {
-    let foodConsumption = 0;
-    for (let i = 0; i < playerData.workers; i++) foodConsumption += 1;
-    for (let i = 0; i < playerData.horses; i++) foodConsumption += 1;
-    return foodConsumption;
+    return playerData.workers + playerData.horses;
 }
 
 async function GetPlayerWages(playerData)
 {
-    let wages = 0;
-    for (let i = 0; i < playerData.workers; i++) wages += 3;
-    return wages;
+    return playerData.workers * 3;
 }
 
 async function GetPlayerEdibleItems(playerId)

@@ -44,7 +44,7 @@ async function AddPlayer(playerName, saveFileId, locationId)
     const response = await fetch(`/api/merchant/`,
     {
         method: 'POST',
-        body: JSON.stringify({ merchantType: "player", name: playerName, coins: 200, workers: 1, horses: 1, locationId: locationId, saveFileId }),
+        body: JSON.stringify({ merchantType: "player", name: playerName, coins: 200, workers: 0, horses: 1, locationId: locationId, saveFileId }),
         headers: {'Content-Type': 'application/json',},
     });
     const responseData = await response.json();

@@ -7,6 +7,7 @@ async function GetLocationHandler(event)
 	if (event.target.hasAttribute("data-id")) 
 	{
 		const locationId = event.target.getAttribute("data-id");
+		const daysToReach = event.target.getAttribute("days-to-reach");
 		const locationExistsResponse = await fetch(`/api/location/${locationId}`, { method: "GET", });
 
 		if (locationExistsResponse.ok)
@@ -15,7 +16,7 @@ async function GetLocationHandler(event)
 			if (playerData.locationId != locationId)
 			{
 				await UpdatePlayerLocation(locationId, playerData.id);
-				await NewDay();
+				await NewDay(daysToReach);
 			}
 
 			document.location.replace(`/location/${locationId}`);
@@ -26,7 +27,7 @@ async function GetLocationHandler(event)
 
 function SetupLocationButtons()
 {
-	const locationButtons = document.querySelectorAll(".cities");
+	const locationButtons = document.querySelectorAll(".location");
 	for (let i = 0; i < locationButtons.length; i++)
 	{
 		locationButtons[i].addEventListener("click", GetLocationHandler);

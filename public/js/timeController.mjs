@@ -2,30 +2,36 @@ import { AddItemRandomlyFromProduced, RemoveRandomItem, RemoveItem } from "./ite
 import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems, GetNumberOfPlayerEdibleItems, GetSessionInformation } from "./getData.mjs";
 import { UpdateSaveFile, UpdatePlayerCoins } from "./updateData.mjs";
 
-async function NewDay()
+async function NewDay(daysToPass)
 {
-    const success = await UseResources();
-    if (success === true)
+    if (daysToPass > 0)
     {
-        await UpdateMerchantStock();
-        await IncreaseDayCounter();
+        const success = await UseResources(daysToPass);
+        if (success === true)
+        {
+            await UpdateMerchantStock(daysToPass);
+            await IncreaseDayCounter(daysToPass);
+        }
+        else GameOver(success);
     }
-    else GameOver(success);
 }
 
-async function UpdateMerchantStock()
+async function UpdateMerchantStock(daysToPass)
 {
     const merchantsData = await GetAllMerchantsInCurrentSaveFile();
 
     for (let i = 0; i < merchantsData.length; i++)
     {
-        const itemCount = GetMerchanItemQuantity(merchantsData[i]);
+        for (let j = 0; j < daysToPass; j++) 
+        {
+            const itemCount = GetMerchanItemQuantity(merchantsData[i]);
 
-        if (itemCount > 10) RemoveRandomNumberOfItems(3, merchantsData[i]);
-        else if (itemCount > 30) RemoveRandomNumberOfItems(8, merchantsData[i]);
+            if (itemCount > 10) RemoveRandomNumberOfItems(3, merchantsData[i]);
+            else if (itemCount > 30) RemoveRandomNumberOfItems(8, merchantsData[i]);
 
-        if (itemCount < 30) AddRandomNumberOfItems(5, merchantsData[i]);
-        else if (itemCount < 10) AddRandomNumberOfItems(10, merchantsData[i]);
+            if (itemCount < 30) AddRandomNumberOfItems(5, merchantsData[i]);
+            else if (itemCount < 10) AddRandomNumberOfItems(10, merchantsData[i]);
+        }
     }
 }
 
@@ -39,10 +45,10 @@ function GetMerchanItemQuantity(merchantData)
     return count;
 }
 
-async function IncreaseDayCounter()
+async function IncreaseDayCounter(daysToPass)
 {
     const currentSaveFile = await GetCurrentSaveFile();
-    const newDayCount = (parseInt(currentSaveFile.day) + 1);
+    const newDayCount = (parseInt(currentSaveFile.day) + daysToPass);
     await UpdateSaveFile(newDayCount, currentSaveFile.id);
 }
 
@@ -64,16 +70,18 @@ async function RemoveRandomNumberOfItems(maxItems, merchantData)
     }
 }
 
-async function UseResources()
+async function UseResources(daysToPass)
 {
     const playerData = await GetPlayerInformation();
 
-    const foodConsumption = await GetPlayerFoodConsumption(playerData);
-    const consumeFoodResponse = await ConsumeFood(foodConsumption, playerData.id);
+    const foodPerDay = await GetPlayerFoodConsumption(playerData);
+    const foodTotal = foodPerDay * daysToPass;
+    const consumeFoodResponse = await ConsumeFood(foodTotal, playerData.id);
     if (consumeFoodResponse === false) { return "noFood"; }
 
-    const wages = await GetPlayerWages(playerData);
-    const payWagesResponse = await PayWages(playerData, wages, playerData.id);
+    const wagesPerDay = await GetPlayerWages(playerData);
+    const wagesTotal = wagesPerDay * daysToPass;
+    const payWagesResponse = await PayWages(playerData, wagesTotal, playerData.id);
     if (payWagesResponse === false) { return "noMoney"; }
 
     return true;

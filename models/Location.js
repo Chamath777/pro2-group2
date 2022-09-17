@@ -18,6 +18,16 @@ Location.init
         type: DataTypes.STRING,
         allowNull: false,
     },
+    xPosition:
+    {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    yPosition:
+    {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     saveFileId:
     {
         type: DataTypes.INTEGER,

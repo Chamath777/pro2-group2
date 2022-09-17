@@ -22,6 +22,30 @@ async function UpdatePlayerCoins(newValue, playerId)
     if (!response.ok) console.log(`Failed to update player coins`);
 }
 
+async function UpdatePlayerHorses(newValue, playerId)
+{
+    const response = await fetch(`/api/merchant/${playerId}`, 
+    {
+        method: 'PUT',
+        body: JSON.stringify({ horses: newValue }),
+        headers: {'Content-Type': 'application/json',},
+    });
+
+    if (!response.ok) console.log(`Failed to update player coins`);
+}
+
+async function UpdatePlayerWorkers(newValue, playerId)
+{
+    const response = await fetch(`/api/merchant/${playerId}`, 
+    {
+        method: 'PUT',
+        body: JSON.stringify({ workers: newValue }),
+        headers: {'Content-Type': 'application/json',},
+    });
+
+    if (!response.ok) console.log(`Failed to update player coins`);
+}
+
 async function UpdateSaveFile(newDayCount, saveFileId)
 {
     const response = await fetch(`/api/saveFile/${saveFileId}`,
@@ -37,5 +61,7 @@ async function UpdateSaveFile(newDayCount, saveFileId)
 export { 
     UpdatePlayerLocation, 
     UpdatePlayerCoins,
-    UpdateSaveFile
+    UpdateSaveFile,
+    UpdatePlayerHorses,
+    UpdatePlayerWorkers
 };
