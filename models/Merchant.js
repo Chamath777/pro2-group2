@@ -28,6 +28,14 @@ Merchant.init
     {
         type: DataTypes.INTEGER,
     },
+    workers:
+    {
+      	type: DataTypes.INTEGER,
+    },
+	horses:
+	{
+		type: DataTypes.INTEGER,
+  	},
     locationId:
     {
         type: DataTypes.INTEGER,
