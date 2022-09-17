@@ -1,60 +1,103 @@
 <section class="section">
-  <div class="columns is-mobile is-centered">
-    <div class="column is-narrow">
+  <div class="columns is-centered">
+    <div class="column is-mobile is-narrow">
       <div class="container">
         <div class="content">
-          <div
-            class="box title is-2 is-light is-large has-text-centered">
-            Welcome to {{location.name}}</div>
+          <div class="box title is-light has-text-centered mb-6 mt-6"><span class="icon-text"></span><span class="icon">
+                <i class="fa-brands fa-fort-awesome mr-5 pl-3"
+                  ></i></span></span>
+            Welcome to
+            {{location.name}}</div>
         </div>
       </div>
     </div>
   </div>
-  <div class="columns is-mobile is-centered">
-     {{!-- a card for each item will appear with a button to buy --}}
-      {{#each merchantInfo.items as |merchantItem|}}
-        <div class="column is-narrow">
-          <div class="container">
-            <div class="card mt-4" data-id="{{merchantItem.id}}">
-              <div class="card-content">
-                <div class="content">
-                  <h2 class="subtitle">{{merchantItem.name}}</h2>
-                  <h2 class="subtitle">{{merchantItem.price}} coins</h2>
-                  <div class="card-body">
-                    <img src="/images/" alt="" />
-                    <button class="button buy-item" item-id="{{merchantItem.id}}" item-price="{{merchantItem.price}}">Buy</button>
+  <div class="columns is-centered">
+    <div class="column is-5">
+      <div class="container">
+        <div class="content">
+          <div class="box is-light has-text-centered">
+           <header class="title is-3">Merchant: {{merchantInfo.name}}</header>
+          </div>
+        </div>
+      </div>
+      {{! a card for each item will appear with a button to buy }}
+      <div class="columns is-flex-wrap-wrap has-text-centered is-mobile">
+        {{#each merchantInfo.items as |merchantItem|}}
+          <div
+            class="column is-one-third-mobile is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd"
+          >
+            <div class="container">
+              <div class="card mt-4" data-id="{{merchantItem.id}}">
+                <div class="card-content">
+                  <div class="content">
+                    <h2 class="subtitle">{{merchantItem.name}}</h2>
+                    <h3 class="subtitle">{{merchantItem.price}} <span class="icon-text"></span><span class="icon has-text-warning">
+                <i class="fa-solid fa-coins ml-5"
+                  ></i></span></span></h3>
+                    <div class="card-body">
+                      <img src="/images/" alt="" />
+                      <button
+                        class="button has-background-danger-dark has-text-white is-outlined buy-item"
+                        item-id="{{merchantItem.id}}"
+                        item-price="{{merchantItem.price}}"
+                      >Buy</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="column is-5 is-offset-1">
+      <div class="container">
+        <div class="content">
+          <div class="box is-light has-text-centered">
+            <header class="title is-3"><span class="icon-text"></span><span class="icon has-text-warning">
+                <i class="fa-solid fa-coins mr-5"
+                  ></i></span></span>
+                You have
+              {{playerInfo.coins}}
+              coins</header>
+          </div>
         </div>
-      {{/each}}
-  </div>
-  <div class="columns is-mobile is-centered">
-    {{!-- a card for each item will appear with a button to sell --}}
-    <div class="column is-narrow">You have {{playerInfo.coins}} coins</div>
-      {{#each playerInfo.items as |playerItem|}}
-        <div class="column is-narrow">
-          <div class="container">
-            <div class="card mt-4" data-id="{{playerItem.id}}">
-              <div class="card-content">
-                <div class="content">
-                  <h2 class="subtitle">{{playerItem.name}}</h2>
-                  <h2 class="subtitle">{{playerItem.price}} coins</h2>
-                  <div class="card-body">
-                    <img src="/images/" alt="" />
-                    <button class="button sell-item" item-id="{{playerItem.id}}" item-price="{{playerItem.price}}">Sell</button>
+      </div>
+      <div
+        class="columns is-three-quarters-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd is-flex-wrap-wrap is-mobile has-text-centered"
+      >
+        {{! a card for each item will appear with a button to sell }}
+        {{#each playerInfo.items as |playerItem|}}
+          <div class="column is-mobile is-one-third-mobile is-half-tablet is-half-desktop is-one-third-widescreen is-one-third-fullhd">
+            <div class="container">
+              <div class="card mt-4" data-id="{{playerItem.id}}">
+                <div class="card-content">
+                  <div class="content">
+                    <h2 class="subtitle">{{playerItem.name}}</h2>
+                    <h3 class="subtitle">{{playerItem.price}} <span class="icon-text"></span><span class="icon has-text-warning">
+                <i class="fa-solid fa-coins ml-5"
+                  ></i></span></span></h3>
+                    <div class="card-body">
+                      <button
+                        class="button has-background-danger-dark has-text-white is-outlined sell-item"
+                        item-id="{{playerItem.id}}"
+                        item-price="{{playerItem.price}}"
+                      >Sell</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      {{/each}}
+        {{/each}}
+      </div>
+    </div>
   </div>
 </section>
 <footer class="has-text-centered">
-<button class="button world-map">Go back to Map</button>
+  <button
+    class="button is-rounded is-medium has-background-grey-dark has-text-white is-outlined world-map mb-6 mt-6"
+  >Go back to Map</button>
 </footer>
 <script type="module" src="/js/location.mjs"></script>

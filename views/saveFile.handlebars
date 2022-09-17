@@ -11,11 +11,11 @@
       </div>
     </div>
   </div>
-  <div class="columns is-centered">
-    <div class="column">
+  <div class="columns is-mobile is-centered">
+    <div class="column is-three-quarters-mobile is-one-third-tablet is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd">
       <div class="container">
-       {{! card to create a new game }}
-        <div class="card mt-4">
+        {{! card to create a new game }}
+        <div class="card mt-4 mb-6">
           <div class="card-content">
             <div class="content has-text-centered">
               <h2 class="subtitle">Create a new game!</h2>
@@ -29,9 +29,13 @@
                 <div class="field">
                   <div class="control">
                     <button
-                      class="button has-background-danger-dark has-text-white mt-5 mb-3 new-game"
+                      class="button has-background-danger-dark has-text-white new-game"
                       type="submit"
-                    >Create</button>
+                    >
+                      <i
+                        class="fa fa-circle-o-notch fa-spin mr-3 is-disabled"
+                        id="spinner"
+                      ></i>Create</button>
                   </div>
                 </div>
               </div>
@@ -40,20 +44,28 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="columns has-text-centered is-centered is-mobile is-flex-wrap-wrap">
     {{! each saveFile will appear as a card with a button to continue game and a button to delete game }}
     {{#if saveFiles}}
       {{#each saveFiles as |saveFile|}}
-        <div class="column">
+        <div class="column is-three-quarters-mobile is-one-third-tablet is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd">
           <div class="container">
-            <div class="card mt-4" data-id="{{saveFile.id}}">
+            <div class="card m-3" data-id="{{saveFile.id}}">
               <div class="card-content has-text-centered">
                 <div class="content">
                   <h2 class="subtitle">Game {{saveFile.id}}</h2>
                   <div class="card-body">
                     <p class="has-text-centered">Day {{saveFile.day}}</p>
                     {{! button will direct to existing game }}
-                    <button class="button has-background-danger-dark has-text-white existing-game mt-2 existing-game" data-id="{{saveFile.id}}">Continue game</button>
-                    <button class="button has-background-danger-dark has-text-white existing-game mt-2 delete-game" data-id="{{saveFile.id}}">Delete game</button>
+                    <button
+                      class="button has-background-danger-dark has-text-white existing-game mt-2 existing-game"
+                      data-id="{{saveFile.id}}"
+                    >Continue game</button>
+                    <button
+                      class="button has-background-danger-dark has-text-white existing-game mt-2 delete-game"
+                      data-id="{{saveFile.id}}"
+                    >Delete game</button>
                   </div>
                 </div>
               </div>
