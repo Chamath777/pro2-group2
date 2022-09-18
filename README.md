@@ -2,6 +2,8 @@
 
 The Merchant Game is a medieval fantasy themed trading game where players can travel around a world map via icons on a map image and buy ad sell goods/commodities at different locations on the map.
 
+![Preview Image](./public/images/screenshot.png?raw=true "Preview Image")
+
 ## Table Of Contents
 - [Installation](#installation)
 - [Usage](#usage)
