@@ -21,10 +21,7 @@
 </head>
 <body>
   <!-- this is the navbar element -->
-  <nav
-    class="navbar has-background-dark p-2 has-text-weight-semibold is-transparent"
-    role="navigation"
-    aria-label="main navigation">
+  <nav class="navbar has-background-dark p-2 has-text-weight-semibold is-transparent" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="navbar-item has-text-white is-size-3">
         Merchant Game
@@ -40,9 +37,7 @@
         <span aria-hidden="true"></span>
       </a>
     </div>
-    <div
-      id="navbar"
-      class="navbar-menu has-background-dark is-transparent has-text-white">
+    <div id="navbar" class="navbar-menu has-background-dark is-transparent has-text-white">
       <div class="navbar-end">
         {{!-- if the user is logged in they will see the logout and homepage button --}}
         {{#if loggedIn}}
@@ -56,49 +51,49 @@
           {{/if}}
           <button class="button navbar-item has-text-white has-background-dark is-size-5" id="logout">Logout</button>
         </div>
+        {{/if}}
       </div>
     </div>
   </nav>
-
+  {{#if loggedIn}}
   <!-- How to play modal -->
   <div id="how-to-play-modal" class="modal">
     <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title has-text-centered">How To Play</p>
-          <button class="delete" id="how-to-play-modal-close" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body has-text-black">
-          <div class="has-text-weight-bold is-size-5">
-            <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins"></i></span>
-            Coins:
-          </div>
-          <div>
-            The goal of the game is to make as much money as you can by buying and selling items. Each location has certain items that it produces, if a location produces items then they can be bought 
-            there for below average prices, while the reverse is true for items that aren't produced. Try to find locations that will buy particular items for high prices and other locations that will 
-            sell them for low prices to maximise you profits.
-          </div>
-          <br>
-          <div class="has-text-weight-bold is-size-5">
-            <span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite"></i></span>
-            Food:
-          </div>
-          <div>
-            Some items can be eaten, make sure you have enough food to feed everyone (as explained in the Workers and Horses section below) or you'll lose the game.
-          </div>
-          <br>
-          <div class="has-text-weight-bold is-size-5">
-            <span class="icon-text"></span><span class="icon has-text-danger-dark"><i class="fa-solid fa-horse"></i></span>
-            Workers and Horses:
-          </div>
-          <div>
-            Each worker and horse will increase the amount that you can carry. However both need to eat one unit of food a day, and workers also need to be paid a daily wage. You can purchase/hire 
-            additional workers and horses at any location.
-          </div>
-        </section>
-          <footer class="modal-card-foot">
-        </footer>
-      </div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title has-text-centered">How To Play</p>
+        <button class="delete" id="how-to-play-modal-close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body has-text-black">
+        <div class="has-text-weight-bold is-size-5">
+          <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins"></i></span>
+          Coins:
+        </div>
+        <div>
+          The goal of the game is to make as much money as you can by buying and selling items. Each location has certain items that it produces, if a location produces items then they can be bought 
+          there for below average prices, while the reverse is true for items that aren't produced. Try to find locations that will buy particular items for high prices and other locations that will 
+          sell them for low prices to maximise you profits.
+        </div>
+        <br>
+        <div class="has-text-weight-bold is-size-5">
+          <span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite"></i></span>
+          Food:
+        </div>
+        <div>
+          Some items can be eaten, make sure you have enough food to feed everyone (as explained in the Workers and Horses section below) or you'll lose the game.
+        </div>
+        <br>
+        <div class="has-text-weight-bold is-size-5">
+          <span class="icon-text"></span><span class="icon has-text-danger-dark"><i class="fa-solid fa-horse"></i></span>
+          Workers and Horses:
+        </div>
+        <div>
+          Each worker and horse will increase the amount that you can carry. However both need to eat one unit of food a day, and workers also need to be paid a daily wage. You can purchase/hire 
+          additional workers and horses at any location.
+        </div>
+      </section>
+        <footer class="modal-card-foot">
+      </footer>
     </div>
   </div>
 
@@ -112,14 +107,11 @@
         </header>
         <section class="modal-card-body has-text-black">
           <div>
-            <canvas id="progress-chart">
-
-            </canvas>
+            <canvas id="progress-chart"></canvas>
           </div>
         </section>
-          <footer class="modal-card-foot">
-        </footer>
-      </div>
+      <footer class="modal-card-foot">
+      </footer>
     </div>
   </div>
   {{/if}}
