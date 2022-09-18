@@ -16,6 +16,8 @@ The Merchant Game is a medieval fantasy themed trading game where players can tr
 
 The game allows players to log in as individual users and either start a new game or resume a previously saved game in progress. The game will store player data on a database, storing information such as player location on the map and player inventory of items as a saved game. Inventories will also be generated for towns on the map that will randomly generate inventories of commodities that can be traded with the player.
 
+[Deployed Version](https://ascrivener-merchant-game.herokuapp.com)
+
 ## User Story
 
 ```md
