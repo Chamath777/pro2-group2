@@ -1,44 +1,19 @@
 {{! have map on background image }}
-{{! this is a bulma grid to try and have buttons of city that will look like they are randomly on the map }}
 <section>
-  <div class="columns is-mobile ml-1 mr-1 mt-1">
-    <div class="column is-one-eigth-mobile is-one-eigth-tablet is-one-eigth-desktop">
+  <div class="columns is-mobile m-1">
+    <div class="column is-narrow">
       <div class="container">
         <div class="content">
-          <div class="box has-background-dark has-text-white has-text-centered is-medium is-size-4 p-3">
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
+            Day: {{playerInfo.day}}
+          </div>
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
             Coins: {{playerInfo.coins}}
             <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-3"></i></span>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="column is-one-eigth-mobile is-one-eigth-tablet is-one-eigth-desktop">
-      <div class="container">
-        <div class="content">
-          <div class="box has-background-dark has-text-white has-text-centered is-medium is-size-4 p-3">
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
             Food: {{playerInfo.foodCount}}
             <span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite ml-3"></i></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="column is-one-eigth-mobile is-one-quarter-tablet is-half-desktop"></div>
-    <div class="column is-one-eigth-mobile is-one-eigth-tablet is-one-eigth-desktop">
-      <div class="container">
-        <div class="content">
-          <div class="box has-background-dark has-text-white has-text-centered is-medium is-size-4 p-3">
-            <span class="icon-text"></span><span class="icon has-text-white"><i class="fa-solid fa-book"></i></span>
-            How to play
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="column is-one-eigth-mobile is-one-eigth-tablet is-one-eigth-desktop">
-      <div class="container">
-        <div class="content">
-          <div class="box has-background-dark has-text-white has-text-centered is-medium is-size-4 p-3">
-            <span class="icon-text"></span><span class="icon has-text-white"><i class="fa-solid fa-chart-simple"></i></span>
-            Score graph
           </div>
         </div>
       </div>
@@ -46,14 +21,15 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container is-flex location0">
-    {{#if locationInfo.0.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
+<section>
+  {{#each locationInfo as |location|}}
+  <div class="container is-flex {{location.cssClass}}">
+    {{#if location.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
     <div class="dropdown is-hoverable is-centered">
       <div class="dropdown-trigger">
         <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
-          data-id="{{locationInfo.0.id}}" days-to-reach="{{locationInfo.0.daysToReach}}">
-          {{locationInfo.0.name}}
+          data-id="{{location.id}}" days-to-reach="{{location.daysToReach}}">
+          {{location.name}}
         </button>
       </div>
       <div class="dropdown-menu" id="dropdown-menu4" role="menu">
@@ -61,146 +37,15 @@
           <div class="dropdown-item">
             <p>Travelling here</p>
             <p>will take:</p>
-            <p><strong>{{locationInfo.0.daysToReach}}</strong> days</p>
-            <p><strong>{{locationInfo.0.wages}}</strong> coins in wages</p>
-            <p><strong>{{locationInfo.0.food}}</strong> units of food.</p>
+            <p><strong>{{location.daysToReach}}</strong> days</p>
+            <p><strong>{{location.wages}}</strong> coins in wages</p>
+            <p><strong>{{location.food}}</strong> units of food.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="container is-flex location1">
-    {{#if locationInfo.1.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
-    <div class="dropdown is-hoverable is-centered">
-      <div class="dropdown-trigger">
-        <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
-          data-id="{{locationInfo.1.id}}" days-to-reach="{{locationInfo.1.daysToReach}}">
-          {{locationInfo.1.name}}
-        </button>
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div class="dropdown-content">
-          <div class="dropdown-item">
-            <p>Travelling here</p>
-            <p>will take:</p>
-            <p><strong>{{locationInfo.1.daysToReach}}</strong> days</p>
-            <p><strong>{{locationInfo.1.wages}}</strong> coins in wages</p>
-            <p><strong>{{locationInfo.1.food}}</strong> units of food.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container is-flex location2">
-    {{#if locationInfo.2.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
-    <div class="dropdown is-hoverable is-centered">
-      <div class="dropdown-trigger">
-        <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
-          data-id="{{locationInfo.2.id}}" days-to-reach="{{locationInfo.2.daysToReach}}">
-          {{locationInfo.2.name}}
-        </button>
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div class="dropdown-content">
-          <div class="dropdown-item">
-            <p>Travelling here</p>
-            <p>will take:</p>
-            <p><strong>{{locationInfo.2.daysToReach}}</strong> days</p>
-            <p><strong>{{locationInfo.2.wages}}</strong> coins in wages</p>
-            <p><strong>{{locationInfo.2.food}}</strong> units of food.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container is-flex location3">
-    {{#if locationInfo.3.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
-    <div class="dropdown is-hoverable is-centered">
-      <div class="dropdown-trigger">
-        <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
-          data-id="{{locationInfo.3.id}}" days-to-reach="{{locationInfo.3.daysToReach}}">
-          {{locationInfo.3.name}}
-        </button>
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div class="dropdown-content">
-          <div class="dropdown-item">
-            <p>Travelling here</p>
-            <p>will take:</p>
-            <p><strong>{{locationInfo.3.daysToReach}}</strong> days</p>
-            <p><strong>{{locationInfo.3.wages}}</strong> coins in wages</p>
-            <p><strong>{{locationInfo.3.food}}</strong> units of food.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container is-flex location4">
-    {{#if locationInfo.4.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
-    <div class="dropdown is-hoverable is-centered">
-      <div class="dropdown-trigger">
-        <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
-          data-id="{{locationInfo.4.id}}" days-to-reach="{{locationInfo.4.daysToReach}}">
-          {{locationInfo.4.name}}
-        </button>
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div class="dropdown-content">
-          <div class="dropdown-item">
-            <p>Travelling here</p>
-            <p>will take:</p>
-            <p><strong>{{locationInfo.4.daysToReach}}</strong> days</p>
-            <p><strong>{{locationInfo.4.wages}}</strong> coins in wages</p>
-            <p><strong>{{locationInfo.4.food}}</strong> units of food.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {{!-- <div class="columns is-left bottom-of-screen">
-    <div class="column is-mobile is-narrow">
-      <div class="container">
-        <div class="content">
-          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-5">
-            Coins: {{playerInfo.coins}}
-            <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-3"></i></span>
-          </div>
-          </div>
-        </div>
-      </div>
-    <div class="column is-mobile is-narrow">
-      <div class="container">
-        <div class="content">
-          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-5">
-            Food: {{playerInfo.foodCount}}
-            <span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite ml-3"></i></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns is-centered bottom-of-screen">
-    <div class="column is-mobile is-narrow">
-      <div class="container">
-        <div class="content">
-          <button class="button has-background-dark has-text-white has-text-right is-medium is-size-5" id="rule-button">
-            <span class="icon-text"></span><span class="icon has-text-white"><i class="fa-solid fa-book mr-3"></i></span>
-            Rules
-          </button>
-          </div>
-        </div>
-      </div>
-    <div class="column is-mobile is-narrow">
-      <div class="container">
-        <div class="content">
-          <button class="button has-background-dark has-text-white has-text-right is-medium is-size-5" id="score-button">
-            <span class="icon-text"></span><span class="icon has-text-white"><i class="fa-solid fa-chart-simple mr-3"></i></span>
-            Score Graph
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> --}}
+  {{/each}}
 </section>
 
 <script type="module" src="/js/worldMap.mjs"></script>

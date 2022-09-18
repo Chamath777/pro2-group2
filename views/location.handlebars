@@ -24,7 +24,8 @@
             <tr>
               <th class="has-text-left">Item name</th>
               <th class="has-text-centered">Available</th>
-              <th class="has-text-centered">Price (per item)</th>
+              <th class="has-text-centered">Price</th>
+              <th class="has-text-centered">Weight</th>
               <th class="has-text-centered">Edible</th>
               <th class="has-text-centered"></th>
             </tr>
@@ -35,8 +36,9 @@
               <td class="has-text-left">{{merchantItem.name}}</td>
               <td>{{merchantItem.quantity}}</td>
               <td>{{merchantItem.price}} <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-5"></i></span></td>
+              <td>{{merchantItem.weight}}</td>
               <td>{{#if merchantItem.edible}}<span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite"></i></span>{{/if}}</td>
-              {{#if (greaterThanOrEqual merchantItem.playerCoins merchantItem.price)}}
+              {{#if merchantItem.purchasable}}
               <td class="has-text-right">
                 <button
                   class="button has-background-danger-dark has-text-white is-outlined buy-item"
@@ -64,8 +66,17 @@
 
     <div class="column has-text-right">
       <div class="box">
-          <header class="title is-3"><span class="icon-text"></span><span class="icon has-text-warning">
-          <i class="fa-solid fa-coins mr-5"></i></span></span>You have {{playerInfo.coins}} coins</header>
+      <div class="columns">
+        <div class="column has-text-left">
+            <header class="title is-3">
+              You have {{playerInfo.coins}} coins
+              <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-5"></i></span></span>
+            </header>
+          </div>
+          <div class="column">
+            <header class="title is-3">Carrying {{playerInfo.carrying}}/{{playerInfo.carryingCapacity}} weight</header>
+          </div>
+        </div>
       </div>
       <div class="box">
         <table class="table is-hoverable is-fullwidth has-text-centered">
@@ -73,7 +84,8 @@
             <tr>
               <th></th>
               <th class="has-text-centered">Edible</th>
-              <th class="has-text-centered">Price (per item)</th>
+              <th class="has-text-centered">Weight</th>
+              <th class="has-text-centered">Price</th>
               <th class="has-text-centered">Available</th>
               <th class="has-text-right">Item name</th>
             </tr>
@@ -90,6 +102,7 @@
                 </button>
               </td>
               <td>{{#if playerItem.edible}}<span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite"></i></span>{{/if}}</td>
+              <td>{{playerItem.weight}}</td>
               <td>{{playerItem.price}}<span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-5"></i></span></td>
               <td>{{playerItem.quantity}}</td>
               <td class="has-text-right">{{playerItem.name}}</td>

@@ -87,6 +87,15 @@ async function GetPlayerWages(playerData)
     return playerData.workers * 3;
 }
 
+async function GetPlayerProgress()
+{
+    const response = await fetch(`/api/playerProgress/current`, { method: 'GET', });
+    const responseData = await response.json();
+
+    if (response.ok) return responseData;
+    else console.log('Failed to create item');
+}
+
 async function GetPlayerEdibleItems(playerId)
 {
     const response = await fetch(`/api/item/playerFoodItems/${playerId}`, { method: 'GET', });
@@ -109,6 +118,15 @@ async function GetNumberOfPlayerEdibleItems(items)
 async function GetItemInformation(itemId)
 {
     const response = await fetch(`/api/item/${itemId}`, { method: 'GET', });
+    const responseData = await response.json();
+
+    if (response.ok) return responseData;
+    else console.log('Failed to find item');
+}
+
+async function GetItemTypeFromId(itemTypeId)
+{
+    const response = await fetch(`/api/itemType/${itemTypeId}`, { method: 'GET', });
     const responseData = await response.json();
 
     if (response.ok) return responseData;
@@ -212,9 +230,11 @@ export {
     GetPlayerCarryingCapacity,
     GetPlayerFoodConsumption,
     GetPlayerWages,
+    GetPlayerProgress,
     GetPlayerEdibleItems,
     GetNumberOfPlayerEdibleItems,
-    GetItemInformation, 
+    GetItemInformation,
+    GetItemTypeFromId,
     GetAllLocations, 
     GetCurrentMerchant, 
     GetItemInformationFromLocation,

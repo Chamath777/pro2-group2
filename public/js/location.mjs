@@ -1,4 +1,4 @@
-import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant, GetSessionInformation } from "./getData.mjs";
+import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant, GetSessionInformation, GetPlayerCarryingCapacity, GetItemTypeFromId } from "./getData.mjs";
 import { UpdatePlayerCoins, UpdatePlayerHorses, UpdatePlayerWorkers } from "./updateData.mjs";
 import { TransferItem } from "./itemController.mjs";
 
@@ -17,13 +17,19 @@ async function BuyItemHandler(event)
 		const merchantData = await GetCurrentMerchant();
 		const playerData = await GetPlayerInformation();
 		const itemData = await GetItemInformation(itemId);
+		const itemTypeData = await GetItemTypeFromId(itemData.itemTypeId);
+		const playerCarryingCapacity = await GetPlayerCarryingCapacity(playerData);
 		
 		if (playerData.coins >= itemPrice)
 		{
-			await TransferItem(itemData.itemTypeId, playerData.id, merchantData.id, 1);
-			const newPlayerCoins = parseInt(playerData.coins) - parseInt(itemPrice);
-			await UpdatePlayerCoins(newPlayerCoins, playerData.id);
-			RefreshPage();
+			if (playerCarryingCapacity >= itemTypeData.weight)
+			{
+				await TransferItem(itemData.itemTypeId, playerData.id, merchantData.id, 1);
+				const newPlayerCoins = parseInt(playerData.coins) - parseInt(itemPrice);
+				await UpdatePlayerCoins(newPlayerCoins, playerData.id);
+				RefreshPage();
+			}
+			else console.log("You can't carry that!");
 		}
 		else console.log("You can't afford that!");
 	}

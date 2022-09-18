@@ -23,14 +23,6 @@ body {
   padding: 0.1em 0.1em;
 }
 
-.bottom-of-screen
-{ 
-  position: fixed;
-  align-items: center;
-  width: 75%;
-  bottom: 5%;
-}
-
 .location0
 {
   position: fixed;

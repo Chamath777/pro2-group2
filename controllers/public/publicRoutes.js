@@ -29,7 +29,8 @@ router.get("/saveFile", RedirectToLogin, async (req, res) =>
 			saveFiles,
 			userName: user.name,
 			loggedIn: req.session.loggedIn,
-			onHomePage: true,
+			displayHomePageButton: false,
+			displayScoreButton: false,
 		});
 	}
 	catch (err) { res.status(500).json(err); }
@@ -48,7 +49,8 @@ router.get("/worldMap/:id", RedirectToLogin, async (req, res) =>
 			const player = await playerData.get({ plain: true });
 
 			const locationInfo = await AddLocationInfo(locations, player);
-			const playerInfo = await AddPlayerFoodCount(player);
+			let playerInfo = await AddPlayerFoodCount(player);
+			playerInfo = await AddDayCount(playerInfo, req.params.id);
 
 			req.session.save(() => 
 			{
@@ -59,7 +61,8 @@ router.get("/worldMap/:id", RedirectToLogin, async (req, res) =>
 					locationInfo,
 					playerInfo,
 					loggedIn: req.session.loggedIn,
-					onHomePage: false,
+					displayHomePageButton: true,
+					displayScoreButton: true,
 				});
 			});
 		}
@@ -91,10 +94,12 @@ router.get("/location/:id", RedirectToLogin, async (req, res) =>
 				include: [{ model: Item }] }
 			);
 			const player = await playerData.get({ plain: true });
+			const playerCarryingCapacity = GetPlayerCarryingCapacity(player);
 
-			const merchantInfo = await AddItemInformation(merchant, location, player.coins);
-			const playerInfo = await AddItemInformation(player, location, player.coins);
-			
+			const merchantInfo = await AddItemInformation(merchant, location, player.coins, playerCarryingCapacity);
+			const playerInfo = await AddItemInformation(player, location, player.coins, playerCarryingCapacity);
+			playerInfo.carryingCapacity = playerCarryingCapacity;
+
 			req.session.save(() => 
 			{
 				req.session.locationId = req.params.id;
@@ -105,7 +110,8 @@ router.get("/location/:id", RedirectToLogin, async (req, res) =>
 					merchantInfo,
 					playerInfo,
 					loggedIn: req.session.loggedIn,
-					onHomePage: false,
+					displayHomePageButton: true,
+					displayScoreButton: true,
 				});
 			});
 		}
@@ -125,7 +131,8 @@ router.get("/gameOver/:id", RedirectToLogin, async (req, res) =>
 		res.render("gameOver", {
 			gameOverMessage,
 			loggedIn: req.session.loggedIn,
-			onHomePage: false,
+			displayHomePageButton: true,
+			displayScoreButton: false,
 		});
 	} 
 	catch (err) { res.status(500).json(err); }
@@ -149,6 +156,7 @@ async function AddLocationInfo(locationData, playerData)
 		locationData[i].wages = daysToReach * wages;
 		locationData[i].food = daysToReach * foodConsumption;
 		locationData[i].isPlayerHere = (playerData.locationId == locationData[i].id ? true : false);
+		locationData[i].cssClass = "location" + i;
 	}
 	return locationData;
 }
@@ -173,24 +181,45 @@ async function AddPlayerFoodCount(playerData)
 	return playerData;
 }
 
-async function AddItemInformation(merchant, location, playerCoins)
+async function AddDayCount(playerData, saveFileId)
 {
+	const data = await SaveFile.findByPk(saveFileId);
+	playerData.day = data.day;
+	return playerData;
+}
+
+async function AddItemInformation(merchant, location, playerCoins, playerCarryingCapacity)
+{
+	let carrying = 0;
 	for (let i = 0; i < merchant.items.length; i++) 
 	{
 		const itemType = await ItemType.findByPk(merchant.items[i].itemTypeId);
 		merchant.items[i].name = itemType.name;
 		merchant.items[i].edible = itemType.edible;
-		//A hacky workaround to get the else statement in handlebars to work properly as it can't access information outside of the else statement
-		merchant.items[i].playerCoins = playerCoins;
-		for (let j = 0; j < location.itemTypes.length; j++) 
+		merchant.items[i].weight = itemType.weight;
+		carrying += itemType.weight;
+		for (let j = 0; j < location.itemTypes.length; j++)
 		{
 			if (itemType.id === location.itemTypes[j].locationItemInformation.itemTypeId)
 			{
-				merchant.items[i].price = location.itemTypes[j].locationItemInformation.price;
+				const price = location.itemTypes[j].locationItemInformation.price;
+				merchant.items[i].price = price;
+
+				if (playerCoins >= price && playerCarryingCapacity >= itemType.weight) merchant.items[i].purchasable = true;
+				else merchant.items[i].purchasable = false;
 			}
 		}
 	}
+	merchant.carrying = carrying;
 	return merchant;
+}
+
+function GetPlayerCarryingCapacity(playerData)
+{
+    let carryingCapacity = 100;
+    for (let i = 0; i < playerData.workers; i++) carryingCapacity += 100;
+    for (let i = 0; i < playerData.horses; i++) carryingCapacity += 250;
+    return carryingCapacity;
 }
 
 module.exports = router;
