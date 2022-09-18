@@ -1,82 +1,130 @@
 import { AddItemRandomlyFromProduced, RemoveRandomItem, RemoveItem } from "./itemController.mjs";
-import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems } from "./getData.mjs";
+import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems, GetNumberOfPlayerEdibleItems, GetSessionInformation } from "./getData.mjs";
 import { UpdateSaveFile, UpdatePlayerCoins } from "./updateData.mjs";
 
-async function NewDay()
+let day = 0;
+let playerCoins = 0;
+let playerFood = 0;
+let playerWorkers = 0;
+let playerHorses = 0;
+
+async function NewDay(daysToPass)
 {
-    const success = await UseResources();
-    if (success === false) return;
-    await UpdateMerchantStock();
-    await IncreaseDayCounter();
+    if (daysToPass > 0)
+    {
+        const success = await UseResources(daysToPass);
+        if (success === true)
+        {
+            await UpdateMerchantStock(daysToPass);
+            await IncreaseDayCounter(daysToPass);
+            await CreatePlayerProgress(daysToPass, day, playerCoins, playerFood, playerWorkers, playerHorses);
+        }
+        else GameOver(success);
+    }
 }
 
-async function UpdateMerchantStock()
+async function UpdateMerchantStock(daysToPass)
 {
     const merchantsData = await GetAllMerchantsInCurrentSaveFile();
 
     for (let i = 0; i < merchantsData.length; i++)
     {
-        const merchantId = merchantsData[i].id;
-        
-        if (merchantsData[i].items.length > 10) RemoveRandomNumberOfItems(3, merchantId);
-        else if (merchantsData[i].items.length > 30) RemoveRandomNumberOfItems(8, merchantId);
+        for (let j = 0; j < daysToPass; j++)
+        {
+            const itemCount = GetMerchanItemQuantity(merchantsData[i]);
 
-        if (merchantsData[i].items.length < 30) AddRandomNumberOfItems(5, merchantId);
-        else if (merchantsData[i].items.length < 10) AddRandomNumberOfItems(10, merchantId);
+            if (itemCount > 10) RemoveRandomNumberOfItems(2, merchantsData[i]);
+            else if (itemCount > 50) RemoveRandomNumberOfItems(4, merchantsData[i]);
+
+            if (itemCount < 50) AddRandomNumberOfItems(5, merchantsData[i]);
+            else if (itemCount < 10) AddRandomNumberOfItems(10, merchantsData[i]);
+        }
     }
 }
 
-async function IncreaseDayCounter()
+function GetMerchanItemQuantity(merchantData)
+{
+    let count = 0;
+    for (let i = 0; i < merchantData.items.length; i++) 
+    {
+        count += merchantData.items.quantity;
+    }
+    return count;
+}
+
+async function IncreaseDayCounter(daysToPass)
 {
     const currentSaveFile = await GetCurrentSaveFile();
-    const newDayCount = (parseInt(currentSaveFile.day) + 1);
+    const newDayCount = (parseInt(currentSaveFile.day) + parseInt(daysToPass));
+    day = newDayCount;
     await UpdateSaveFile(newDayCount, currentSaveFile.id);
 }
 
-async function AddRandomNumberOfItems(maxItems, merchantId)
+async function AddRandomNumberOfItems(maxItems, merchantData)
 {
     let itemsToAdd = Math.floor(Math.random() * maxItems);
     for (let j = 0; j < itemsToAdd; j++)
     {
-        await AddItemRandomlyFromProduced(merchantId);
+        await AddItemRandomlyFromProduced(merchantData);
     }
 }
 
-async function RemoveRandomNumberOfItems(maxItems, merchantId)
+async function RemoveRandomNumberOfItems(maxItems, merchantData)
 {
     let itemsToRemove = Math.floor(Math.random() * maxItems);
     for (let j = 0; j < itemsToRemove; j++)
     {
-        await RemoveRandomItem(merchantId);
+        await RemoveRandomItem(merchantData);
     }
 }
 
-async function UseResources()
+async function UseResources(daysToPass)
 {
     const playerData = await GetPlayerInformation();
+    playerCoins = playerData.coins;
+    playerWorkers = playerData.workers;
+    playerHorses = playerData.horses;
 
-    const foodConsumption = await GetPlayerFoodConsumption(playerData);
-    const consumeFoodResponse = await ConsumeFood(foodConsumption, playerData.id);
-    if (consumeFoodResponse === null) { GameOver("You did not have enough food to feed everyone! Game Over"); return false; }
+    const foodPerDay = await GetPlayerFoodConsumption(playerData);
+    const foodTotal = foodPerDay * daysToPass;
+    const consumeFoodResponse = await ConsumeFood(foodTotal, playerData.id);
+    if (consumeFoodResponse === false) { return "noFood"; }
 
-    const wages = await GetPlayerWages(playerData);
-    const payWagesResponse = await PayWages(playerData, wages, playerData.id);
-    if (payWagesResponse === null) { GameOver("You did not have enough money to pay wages! Game Over"); return false; }
-    
+    const wagesPerDay = await GetPlayerWages(playerData);
+    const wagesTotal = wagesPerDay * daysToPass;
+    const payWagesResponse = await PayWages(playerData, wagesTotal, playerData.id);
+    if (payWagesResponse === false) { return "noMoney"; }
+
     return true;
 }
 
-async function ConsumeFood(amountConsumed, playerId)
+async function ConsumeFood(amountToConsume, playerId)
 {
     const playerEdibleItems = await GetPlayerEdibleItems(playerId);
-    for (let i = 0; i < amountConsumed; i++) 
+    const numberOfEdibleItems = await GetNumberOfPlayerEdibleItems(playerEdibleItems);
+    playerFood = numberOfEdibleItems;
+    if (amountToConsume <= numberOfEdibleItems)
     {
-        if (amountConsumed <= playerEdibleItems.length)
+        let amountConsumed = 0;
+        for (let i = 0; i < playerEdibleItems.length; i++) 
         {
-            await RemoveItem(playerEdibleItems[i].id);
+            let quantityOfItem = playerEdibleItems[i].quantity;
+            //If this item doesn't have enough to reach the amountToConsume
+            const amountRemaining = amountToConsume - amountConsumed;
+            if (amountRemaining > quantityOfItem)
+            {
+                await RemoveItem(playerEdibleItems[i].itemTypeId, playerId, quantityOfItem);
+                amountConsumed += quantityOfItem;
+            }
+            else
+            {
+                await RemoveItem(playerEdibleItems[i].itemTypeId, playerId, amountRemaining);
+                return true;
+            }
         }
-        else return null;
+        return true;
     }
+    else return false;
 }
 
 async function PayWages(playerData, amountPaid, playerId)
@@ -85,13 +133,47 @@ async function PayWages(playerData, amountPaid, playerId)
     if (amountPaid <= playerData.coins)
     {
         await UpdatePlayerCoins(newCoinCount, playerId);
+        return true;
     }
-    else return null;
+    else return false;
 }
 
 async function GameOver(message)
 {
-    console.log(message);
+    await DeleteCurrentSaveFile();
+    document.location.replace(`/gameOver/${message}`);
 }
 
-export { NewDay };
+async function DeleteCurrentSaveFile()
+{
+    const sessionInfo = await GetSessionInformation();
+    const response = await fetch(`/api/saveFile/${sessionInfo.saveFileId}`, { method: 'DELETE', });
+    if (!response.ok) console.log(`Failed to delete save file: ${sessionInfo.saveFileId}`);
+}
+
+async function CreateInitialPlayerProgress(saveFileId)
+{
+    const response = await fetch(`/api/playerProgress/`,
+    {
+        method: 'POST',
+        body: JSON.stringify({ day: 0, coins: 200, food: 15, workers: 0, horses: 1, saveFileId: saveFileId }),
+        headers: {'Content-Type': 'application/json',},
+    });
+    if (!response.ok) console.log(`Failed to create initial player progress`);
+}
+
+async function CreatePlayerProgress(daysToPass, day, coins, food, workers, horses)
+{
+    for (let i = 0; i < daysToPass; i++) 
+    {
+        const response = await fetch(`/api/playerProgress/current`, 
+        {
+            method: 'POST',
+            body: JSON.stringify({ day, coins, food, workers, horses }),
+            headers: {'Content-Type': 'application/json',},
+        });
+        if (!response.ok) console.log(`Failed to create player progress`);
+    }
+}
+
+export { NewDay, CreateInitialPlayerProgress };

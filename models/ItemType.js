@@ -23,7 +23,7 @@ ItemType.init
       	type: DataTypes.INTEGER,
         allowNull: false,
     },
-	edible:
+	  edible:
     {
       	type: DataTypes.BOOLEAN,
     },

@@ -1,3 +1,4 @@
+import { GetMerchant } from "./getData.mjs";
 import { AddItem, AddItemRandomlyFromProduced } from "./itemController.mjs";
 
 let merchantNames = 
@@ -43,7 +44,7 @@ async function AddPlayer(playerName, saveFileId, locationId)
     const response = await fetch(`/api/merchant/`,
     {
         method: 'POST',
-        body: JSON.stringify({ merchantType: "player", name: playerName, coins: 200, workers: 1, horses: 1, locationId: locationId, saveFileId }),
+        body: JSON.stringify({ merchantType: "player", name: playerName, coins: 200, workers: 0, horses: 1, locationId: locationId, saveFileId }),
         headers: {'Content-Type': 'application/json',},
     });
     const responseData = await response.json();
@@ -60,15 +61,16 @@ function PickRandomName()
 
 async function InitialisePlayerItems(merchantId)
 {
-    for (let i = 0; i < 2; i++) await AddItem(1, merchantId);
-    for (let i = 0; i < 2; i++) await AddItem(2, merchantId);
-    await AddItem(3, merchantId);
+    await AddItem(1, merchantId, 5);
+    await AddItem(2, merchantId, 5);
+    await AddItem(3, merchantId, 5);
 }
 
 async function InitialiseMerchantStock(merchantId)
 {
+    const merchantData = await GetMerchant(merchantId);
     const numberOfItems = 6 + (Math.round(Math.random() * 15));
-    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantId);
+    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantData);
 }
 
 export { AddMerchant, AddPlayer };

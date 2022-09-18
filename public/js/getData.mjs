@@ -44,6 +44,13 @@ async function GetAllMerchantsInCurrentSaveFile()
     else return responseData;
 }
 
+async function GetMerchantItemTypeStatus(merchantId, itemTypeId)
+{
+    const doesMerchantAlreadyHaveItemTypeResponse = await fetch(`/api/merchant/doesMerchantAlreadyHaveItemType/${merchantId}/${itemTypeId}`, { method: 'GET', });
+    const doesMerchantAlreadyHaveItemTypeData = await doesMerchantAlreadyHaveItemTypeResponse.json();
+    return doesMerchantAlreadyHaveItemTypeData;
+}
+
 async function GetCurrentMerchant()
 {
     const response = await fetch(`/api/merchant/currentMerchant`, { method: 'GET', });
@@ -64,7 +71,7 @@ async function GetPlayerInformation()
 
 async function GetPlayerCarryingCapacity(playerData)
 {
-    let carryingCapacity = 0;
+    let carryingCapacity = 100;
     for (let i = 0; i < playerData.workers; i++) carryingCapacity += 100;
     for (let i = 0; i < playerData.horses; i++) carryingCapacity += 250;
     return carryingCapacity;
@@ -72,17 +79,21 @@ async function GetPlayerCarryingCapacity(playerData)
 
 async function GetPlayerFoodConsumption(playerData)
 {
-    let foodConsumption = 0;
-    for (let i = 0; i < playerData.workers; i++) foodConsumption += 1;
-    for (let i = 0; i < playerData.horses; i++) foodConsumption += 1;
-    return foodConsumption;
+    return playerData.workers + playerData.horses;
 }
 
 async function GetPlayerWages(playerData)
 {
-    let wages = 0;
-    for (let i = 0; i < playerData.workers; i++) wages += 3;
-    return wages;
+    return playerData.workers * 3;
+}
+
+async function GetPlayerProgress()
+{
+    const response = await fetch(`/api/playerProgress/current`, { method: 'GET', });
+    const responseData = await response.json();
+
+    if (response.ok) return responseData;
+    else console.log('Failed to create item');
 }
 
 async function GetPlayerEdibleItems(playerId)
@@ -94,9 +105,28 @@ async function GetPlayerEdibleItems(playerId)
     else console.log('Failed to get playerFoodItems');
 }
 
+async function GetNumberOfPlayerEdibleItems(items)
+{
+    let count = 0;
+    for (let i = 0; i < items.length; i++) 
+    {
+        count += items[i].quantity;
+    }
+    return count;
+}
+
 async function GetItemInformation(itemId)
 {
     const response = await fetch(`/api/item/${itemId}`, { method: 'GET', });
+    const responseData = await response.json();
+
+    if (response.ok) return responseData;
+    else console.log('Failed to find item');
+}
+
+async function GetItemTypeFromId(itemTypeId)
+{
+    const response = await fetch(`/api/itemType/${itemTypeId}`, { method: 'GET', });
     const responseData = await response.json();
 
     if (response.ok) return responseData;
@@ -123,6 +153,21 @@ async function GetItemInformationFromLocationId(locationId)
 {
     const response = await fetch(`/api/location/${locationId}`, { method: 'GET' });
     const responseData = await response.json();
+
+    if (response.ok === false) console.log('Failed to get item types from location');
+    else return responseData.itemTypes;
+}
+
+async function GetProducedItemInformationFromLocationId(locationId)
+{
+    const response = await fetch(`/api/location/${locationId}`, { method: 'GET' });
+    const responseData = await response.json();
+
+    let producedHere = [];
+    for (let i = 0; i < responseData.itemTypes.length; i++) 
+    {
+        if (responseData.itemTypes[i].isItemProducedHere) producedHere.push(responseData.itemTypes[i]);
+    }
 
     if (response.ok === false) console.log('Failed to get item types from location');
     else return responseData.itemTypes;
@@ -175,20 +220,26 @@ async function GetSessionInformation()
 }
 
 export { 
-    GetAllItemTypes, 
+    GetAllItemTypes,
+    GetAllPlayerFoodItems,
     GetMerchant, 
     GetAllMerchants,
     GetAllMerchantsInCurrentSaveFile,
+    GetMerchantItemTypeStatus,
     GetPlayerInformation,
     GetPlayerCarryingCapacity,
     GetPlayerFoodConsumption,
     GetPlayerWages,
+    GetPlayerProgress,
     GetPlayerEdibleItems,
-    GetItemInformation, 
+    GetNumberOfPlayerEdibleItems,
+    GetItemInformation,
+    GetItemTypeFromId,
     GetAllLocations, 
     GetCurrentMerchant, 
     GetItemInformationFromLocation,
     GetItemInformationFromLocationId,
+    GetProducedItemInformationFromLocationId,
     GeneratePriceForItem,
     GetCurrentUserData,
     GetCurrentSaveFile,

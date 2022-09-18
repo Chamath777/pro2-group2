@@ -1,35 +1,51 @@
 {{! have map on background image }}
-{{! this is a bulma grid to try and have buttons of city that will look like they are randomly on the map }}
-<section class="section">
-  <div class="container is-flex is-justify-content-center mt-4">
-    <button
-      class="button is-rounded is-medium has-background-danger-dark has-text-white is-outlined cities"
-      data-id="{{locations.0.id}}"
-    >{{locations.0.name}}</button>
-  </div>
-  <div class="container is-flex is-justify-content-flex-start mt-6">
-    <button
-      class="button is-rounded is-medium has-background-danger-dark has-text-white is-outlined cities"
-      data-id="{{locations.1.id}}"
-    >{{locations.1.name}}</button>
-  </div>
-  <div class="container is-flex is-justify-content-flex-end m-6">
-    <button
-      class="button is-rounded is-medium has-background-danger-dark has-text-white is-outlined cities"
-      data-id="{{locations.2.id}}"
-    >{{locations.2.name}}</button>
-  </div>
-  <div class="container is-flex is-justify-content-center m-6">
-    <button
-      class="button is-rounded is-medium has-background-danger-dark has-text-white is-outlined cities"
-      data-id="{{locations.3.id}}"
-    >{{locations.3.name}}</button>
-  </div>
-  <div class="container is-flex is-justify-content-left m-6">
-    <button
-      class="button is-rounded is-medium has-background-danger-dark has-text-white is-outlined cities"
-      data-id="{{locations.4.id}}"
-    >{{locations.4.name}}</button>
+<section>
+  <div class="columns is-mobile m-1">
+    <div class="column is-narrow">
+      <div class="container">
+        <div class="content">
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
+            Day: {{playerInfo.day}}
+          </div>
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
+            Coins: {{playerInfo.coins}}
+            <span class="icon-text"></span><span class="icon has-text-warning"><i class="fa-solid fa-coins ml-3"></i></span>
+          </div>
+          <div class="box has-background-dark has-text-white has-text-left is-medium is-size-4 p-2 pr-4 mb-2">
+            Food: {{playerInfo.foodCount}}
+            <span class="icon-text"></span><span class="icon has-text-danger"><i class="fa-solid fa-drumstick-bite ml-3"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<section>
+  {{#each locationInfo as |location|}}
+  <div class="container is-flex {{location.cssClass}}">
+    {{#if location.isPlayerHere}}<div class="card"><span class="icon-text"></span><span class="icon is-large has-text-danger-dark"><i class="fa-solid fa-2x fa-horse"></i></span></div>{{/if}}
+    <div class="dropdown is-hoverable is-centered">
+      <div class="dropdown-trigger">
+        <button class="button is-medium has-background-danger-dark has-text-white location" aria-haspopup="true" aria-controls="dropdown-menu4" 
+          data-id="{{location.id}}" days-to-reach="{{location.daysToReach}}">
+          {{location.name}}
+        </button>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+        <div class="dropdown-content">
+          <div class="dropdown-item">
+            <p>Travelling here</p>
+            <p>will take:</p>
+            <p><strong>{{location.daysToReach}}</strong> days</p>
+            <p><strong>{{location.wages}}</strong> coins in wages</p>
+            <p><strong>{{location.food}}</strong> units of food.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</section>
+
 <script type="module" src="/js/worldMap.mjs"></script>

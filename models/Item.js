@@ -13,6 +13,11 @@ Item.init
         primaryKey: true,
         autoIncrement: true,
     },
+    quantity:
+    {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+    },
     itemTypeId:
     {
         type: DataTypes.INTEGER,

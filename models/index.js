@@ -5,6 +5,7 @@ const Merchant = require('./Merchant');
 const ItemType = require('./ItemType');
 const Item = require('./Item');
 const LocationItemInformation = require('./LocationItemInformation');
+const PlayerProgress = require('./PlayerProgress');
 
 User.hasMany(SaveFile, 
 {
@@ -21,6 +22,17 @@ SaveFile.hasMany(Location,
 {
     foreignKey: 'saveFileId',
     onDelete: 'CASCADE'
+});
+
+SaveFile.hasMany(PlayerProgress,
+{
+    foreignKey: 'saveFileId',
+    onDelete: 'CASCADE'
+});
+
+PlayerProgress.belongsTo(SaveFile,
+{
+    foreignKey: "saveFileId",
 });
 
 Location.belongsTo(SaveFile,
@@ -78,4 +90,4 @@ Location.belongsToMany(ItemType,
     },
 });
 
-module.exports = { User, SaveFile, Location, Merchant, ItemType, Item, LocationItemInformation };
+module.exports = { User, SaveFile, Location, Merchant, ItemType, Item, LocationItemInformation, PlayerProgress };

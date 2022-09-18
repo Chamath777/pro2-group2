@@ -12,18 +12,6 @@ router.get('/', async (req, res) =>
 	catch (error) { res.status(500).json(error); }
 });
 
-router.get('/:id', async (req, res) =>
-{
-	try
-	{
-		const data = await Location.findByPk(req.params.id, { include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] });
-
-		if (data === null) { res.status(404).json({message: notFoundResponse}); return; }
-		else res.status(200).json(data);
-	}
-	catch (error) { res.status(500).json(error); }
-});
-
 router.get('/currentLocation', async (req, res) =>
 {
   try
@@ -34,6 +22,18 @@ router.get('/currentLocation', async (req, res) =>
     else res.status(200).json(data);
   }
   catch (error) { res.status(500).json(error); }
+});
+
+router.get('/:id', async (req, res) =>
+{
+	try
+	{
+		const data = await Location.findByPk(req.params.id, { include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] });
+
+		if (data === null) { res.status(404).json({message: notFoundResponse}); return; }
+		else res.status(200).json(data);
+	}
+	catch (error) { res.status(500).json(error); }
 });
 
 router.post('/', async (req, res) => 

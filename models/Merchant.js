@@ -32,9 +32,9 @@ Merchant.init
     {
       	type: DataTypes.INTEGER,
     },
-	horses:
-	{
-		type: DataTypes.INTEGER,
+    horses:
+    {
+		  type: DataTypes.INTEGER,
   	},
     locationId:
     {

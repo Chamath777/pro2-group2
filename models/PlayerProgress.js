@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Location extends Model {}
+class PlayerProgress extends Model {}
 
-Location.init
+PlayerProgress.init
 (
   {
     id:
@@ -13,21 +13,31 @@ Location.init
         primaryKey: true,
         autoIncrement: true,
     },
-    name:
+    day:
     {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
-    xPosition:
+    coins:
     {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
-    yPosition:
+	food:
     {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
+    workers:
+    {
+      	type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    horses:
+    {
+		type: DataTypes.INTEGER,
+      	allowNull: false,
+  	},
     saveFileId:
     {
         type: DataTypes.INTEGER,
@@ -43,8 +53,8 @@ Location.init
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    modelName: 'location',
+    modelName: 'playerProgress',
   }
 );
 
-module.exports = Location;
+module.exports = PlayerProgress;

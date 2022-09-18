@@ -10,22 +10,33 @@ let locationNames =
     "Chaoli",
 ];
 
+let locationPositions = 
+[
+    [2, 2],
+    [1, 1],
+    [0, 0],
+    [2, 0],
+    [3, 1],
+];
+
 async function InitialiseLocations(playerName, saveFileId)
 {
     const locationIndexForPlayerToStartAt = Math.floor(Math.random() * locationNames.length);
 
     for (let i = 0; i < locationNames.length; i++) 
     {
-        await AddLocation(locationNames[i], saveFileId, (i === locationIndexForPlayerToStartAt ? true : false), playerName);
+        const xPosition = locationPositions[i][0];
+        const yPosition = locationPositions[i][1];
+        await AddLocation(locationNames[i], xPosition, yPosition, saveFileId, (i === locationIndexForPlayerToStartAt ? true : false), playerName);
     }
 }
 
-async function AddLocation(name, saveFileId, addPlayer, playerName)
+async function AddLocation(name, xPosition, yPosition, saveFileId, addPlayer, playerName)
 {
     const response = await fetch(`/api/location/`, 
     {
         method: 'POST',
-        body: JSON.stringify({ name, saveFileId }),
+        body: JSON.stringify({ name, xPosition, yPosition, saveFileId }),
         headers: {'Content-Type': 'application/json',},
     });
     const responseData = await response.json();
@@ -46,7 +57,7 @@ async function AddProducedItemTypes(locationId)
     const itemTypesToProduce = [];
     for (let i = 0; i < itemTypes.length; i++) { itemTypesToProduce.push(false); }
     //Choose a random number of items to be produced
-    const numberOfItemTypes = 3 + Math.floor(Math.random() * 2);
+    const numberOfItemTypes = 4 + Math.floor(Math.random() * 4);
     //Set some of the items to be produced
     for (let i = 0; i < numberOfItemTypes; i++)
     {

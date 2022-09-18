@@ -6,6 +6,7 @@ const itemTypeRoutes = require('./itemTypeRoutes');
 const locationItemInformationRoutes = require('./locationItemInformationRoutes');
 const userRoutes = require('./userRoutes');
 const saveFileRoutes = require('./saveFileRoutes');
+const playerProgressRoutes = require('./playerProgressRoutes');
 
 router.use('/location', locationRoutes);
 router.use('/merchant', merchantRoutes);
@@ -14,5 +15,6 @@ router.use('/itemType', itemTypeRoutes);
 router.use('/locationItemInformation', locationItemInformationRoutes);
 router.use('/user', userRoutes);
 router.use('/saveFile', saveFileRoutes);
+router.use('/playerProgress', playerProgressRoutes);
 
 module.exports = router;
