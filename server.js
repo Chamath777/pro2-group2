@@ -5,6 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const expressHandlebars = require('express-handlebars');
 const routes = require('./controllers');
+const Chart = require('chart.js/auto');
 const helpers = require('./utils/handlebarsHelpers');
 
 const sequelize = require('./config/connection');

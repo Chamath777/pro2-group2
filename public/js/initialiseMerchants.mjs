@@ -61,9 +61,9 @@ function PickRandomName()
 
 async function InitialisePlayerItems(merchantId)
 {
-    await AddItem(1, merchantId, 2);
-    await AddItem(2, merchantId, 2);
-    await AddItem(3, merchantId, 1);
+    await AddItem(1, merchantId, 5);
+    await AddItem(2, merchantId, 5);
+    await AddItem(3, merchantId, 5);
 }
 
 async function InitialiseMerchantStock(merchantId)

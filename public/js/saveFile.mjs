@@ -11,10 +11,12 @@ async function NewGameHandler(event) {
     const response = await CreateNewSaveFile();
     const responseData = await response.json();
 
-    if (response.ok) {
+    if (response.ok) 
+    {
       await InitialiseSaveFile(newGameName, responseData.id);
       document.location.replace(`/worldMap/${responseData.id}`);
-    } else console.log(response.statusText);
+    } 
+    else console.log(response.statusText);
   }
 }
 

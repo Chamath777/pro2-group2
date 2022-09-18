@@ -1,4 +1,4 @@
-import Chart from "chart.js/auto";
+import 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js'
 import { GetPlayerProgress } from "./getData.mjs";
 
 async function ViewScoreHandler()
@@ -7,16 +7,34 @@ async function ViewScoreHandler()
 	viewScoreModal.classList.toggle("is-active");
 
 	const playerProgressData = await GetPlayerProgress();
-	const labels = GetGraphLabels(playerProgressData);
+	const labels = await GetGraphLabels(playerProgressData);
+	const chartData = await GetData(playerProgressData);
 	const data = 
 	{
 		labels: labels,
 		datasets:
-		[{
-			backgroundColor: 'rgb(255, 99, 132)',
-      		borderColor: 'rgb(255, 99, 132)',
-			data: GetGraphData(playerProgressData),
-		}]
+		[
+			{
+				label: "Coins",
+				borderColor: 'rgb(228, 228, 94)',
+				data: chartData[0],
+			},
+			{
+				label: "Food",
+				borderColor: 'rgb(255, 99, 132)',
+				data: chartData[1],
+			},
+			{
+				label: "Workers",
+				borderColor: 'rgb(60, 60, 200)',
+				data: chartData[2],
+			},
+			{
+				label: "Horses",
+				borderColor: 'rgb(100, 200, 100)',
+				data: chartData[3],
+			}
+		]
 	};
 
 	const config =
@@ -26,22 +44,26 @@ async function ViewScoreHandler()
 		options: {}
 	};
 
-	new Chart(document.getElementById("progress-chart"), config);
+	const chartElement = document.getElementById("progress-chart");
+	new Chart(chartElement, config);
 }
 
-function GetGraphLabels(playerProgressData)
+async function GetGraphLabels(playerProgressData)
 {
 	let labels = [];
 	for (let i = 0; i < playerProgressData.length; i++) labels.push(i);
 	return labels;
 }
 
-function GetGraphData(playerProgressData)
+async function GetData(playerProgressData)
 {
-	let data = [];
+	let data = [[],[],[],[]];
 	for (let i = 0; i < playerProgressData.length; i++) 
 	{
-		data.push(playerProgressData[i].coins);
+		data[0].push(playerProgressData[i].coins);
+		data[1].push(playerProgressData[i].food);
+		data[2].push(playerProgressData[i].workers);
+		data[3].push(playerProgressData[i].horses);
 	}
 	return data;
 }

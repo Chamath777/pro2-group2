@@ -151,6 +151,17 @@ async function DeleteCurrentSaveFile()
     if (!response.ok) console.log(`Failed to delete save file: ${sessionInfo.saveFileId}`);
 }
 
+async function CreateInitialPlayerProgress(saveFileId)
+{
+    const response = await fetch(`/api/playerProgress/`,
+    {
+        method: 'POST',
+        body: JSON.stringify({ day: 0, coins: 200, food: 15, workers: 0, horses: 1, saveFileId: saveFileId }),
+        headers: {'Content-Type': 'application/json',},
+    });
+    if (!response.ok) console.log(`Failed to create initial player progress`);
+}
+
 async function CreatePlayerProgress(daysToPass, day, coins, food, workers, horses)
 {
     for (let i = 0; i < daysToPass; i++) 
@@ -165,4 +176,4 @@ async function CreatePlayerProgress(daysToPass, day, coins, food, workers, horse
     }
 }
 
-export { NewDay };
+export { NewDay, CreateInitialPlayerProgress };
