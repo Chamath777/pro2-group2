@@ -1,4 +1,4 @@
-import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant, GetSessionInformation, GetPlayerCarryingCapacity, GetItemTypeFromId } from "./getData.mjs";
+import { GetPlayerInformation, GetItemInformation, GetCurrentMerchant, GetSessionInformation, GetPlayerCarryingCapacity, GetItemTypeFromId, GetPlayerCarrying } from "./getData.mjs";
 import { UpdatePlayerCoins, UpdatePlayerHorses, UpdatePlayerWorkers } from "./updateData.mjs";
 import { TransferItem } from "./itemController.mjs";
 
@@ -19,10 +19,12 @@ async function BuyItemHandler(event)
 		const itemData = await GetItemInformation(itemId);
 		const itemTypeData = await GetItemTypeFromId(itemData.itemTypeId);
 		const playerCarryingCapacity = await GetPlayerCarryingCapacity(playerData);
-		
+		const playerCarrying = await GetPlayerCarrying(playerData);
+		const playerWeightRemining = playerCarryingCapacity - playerCarrying;
+
 		if (playerData.coins >= itemPrice)
 		{
-			if (playerCarryingCapacity >= itemTypeData.weight)
+			if (playerWeightRemining >= itemTypeData.weight)
 			{
 				await TransferItem(itemData.itemTypeId, playerData.id, merchantData.id, 1);
 				const newPlayerCoins = parseInt(playerData.coins) - parseInt(itemPrice);

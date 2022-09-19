@@ -57,7 +57,7 @@ async function AddProducedItemTypes(locationId)
     const itemTypesToProduce = [];
     for (let i = 0; i < itemTypes.length; i++) { itemTypesToProduce.push(false); }
     //Choose a random number of items to be produced
-    const numberOfItemTypes = 4 + Math.floor(Math.random() * 4);
+    const numberOfItemTypes = 6 + Math.floor(Math.random() * 6);
     //Set some of the items to be produced
     for (let i = 0; i < numberOfItemTypes; i++)
     {
@@ -71,13 +71,13 @@ async function AddProducedItemTypes(locationId)
 
     for (let i = 0; i < itemTypes.length; i++)
     {
-        await AddProducedItemType(locationId, itemTypes[i].id, itemTypesToProduce[i]);
+        const price = await GeneratePriceForItem(itemTypes[i].id, itemTypesToProduce[i]);
+        await AddProducedItemType(locationId, price, itemTypes[i].id, itemTypesToProduce[i]);
     }
 }
 
-async function AddProducedItemType(locationId, itemTypeId, produced)
+async function AddProducedItemType(locationId, price, itemTypeId, produced)
 {
-    const price = await GeneratePriceForItem(itemTypeId, produced);
     const response = await fetch(`/api/locationItemInformation/`, 
     {
         method: 'POST',

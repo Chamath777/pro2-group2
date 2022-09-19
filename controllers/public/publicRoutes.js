@@ -198,7 +198,7 @@ async function AddItemInformation(merchant, location, playerCoins, playerCarryin
 		merchant.items[i].name = itemType.name;
 		merchant.items[i].edible = itemType.edible;
 		merchant.items[i].weight = itemType.weight;
-		carrying += itemType.weight;
+		carrying += itemType.weight * merchant.items[i].quantity;
 		for (let j = 0; j < location.itemTypes.length; j++)
 		{
 			if (itemType.id === location.itemTypes[j].locationItemInformation.itemTypeId)

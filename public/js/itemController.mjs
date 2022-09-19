@@ -1,4 +1,4 @@
-import { GetProducedItemInformationFromLocationId, GetMerchantItemTypeStatus } from "./getData.mjs";
+import { GetMerchantItemTypeStatus } from "./getData.mjs";
 
 async function AddItem(itemTypeId, merchantId, quantity)
 {
@@ -78,12 +78,10 @@ async function RemoveRandomItem(merchantData)
 }
 
 //Called each day to give merchants new stock
-async function AddItemRandomlyFromProduced(merchantData)
-{
-    const itemInformation = await GetProducedItemInformationFromLocationId(merchantData.locationId);
-    const index = Math.floor(Math.random() * itemInformation.length);
-
-    await AddItem(itemInformation[index].id, merchantData.id, 1);
+async function AddItemRandomlyFromProduced(merchantData, producedItems, quantity)
+{   
+    const index = Math.floor(Math.random() * producedItems.length);
+    await AddItem(producedItems[index].locationItemInformation.itemTypeId, merchantData.id, quantity);
 }
 
 export { AddItem, UpdateItem, RemoveItem, DeleteItem, TransferItem, RemoveRandomItem, AddItemRandomlyFromProduced };

@@ -1,5 +1,5 @@
 import { AddItemRandomlyFromProduced, RemoveRandomItem, RemoveItem } from "./itemController.mjs";
-import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems, GetNumberOfPlayerEdibleItems, GetSessionInformation } from "./getData.mjs";
+import { GetAllMerchantsInCurrentSaveFile, GetCurrentSaveFile, GetPlayerFoodConsumption, GetPlayerWages, GetPlayerInformation, GetPlayerEdibleItems, GetNumberOfPlayerEdibleItems, GetSessionInformation, GetProducedItemInformationFromLocationId } from "./getData.mjs";
 import { UpdateSaveFile, UpdatePlayerCoins } from "./updateData.mjs";
 
 let day = 0;
@@ -29,25 +29,35 @@ async function UpdateMerchantStock(daysToPass)
 
     for (let i = 0; i < merchantsData.length; i++)
     {
+        const producedItems = await GetProducedItemInformationFromLocationId(merchantsData[i].locationId);
+
         for (let j = 0; j < daysToPass; j++)
         {
-            const itemCount = GetMerchanItemQuantity(merchantsData[i]);
+            const itemCount = GetMerchantItemQuantity(merchantsData[i]);
 
-            if (itemCount > 10) RemoveRandomNumberOfItems(2, merchantsData[i]);
-            else if (itemCount > 50) RemoveRandomNumberOfItems(4, merchantsData[i]);
-
-            if (itemCount < 50) AddRandomNumberOfItems(5, merchantsData[i]);
-            else if (itemCount < 10) AddRandomNumberOfItems(10, merchantsData[i]);
+            if (itemCount > 10) RemoveItems(2, merchantsData[i]);
+            else if (itemCount > 50) RemoveItems(4, merchantsData[i]);
+            
+            if (itemCount < 50)
+            {
+                const addQuantity = 1 + Math.floor(Math.random() * 2);
+                AddItems(2, addQuantity, merchantsData[i], producedItems);
+            }
+            else if (itemCount < 20)
+            {
+                const addQuantity = 2 + Math.floor(Math.random() * 5);
+                AddItems(4, addQuantity, merchantsData[i], producedItems);
+            }
         }
     }
 }
 
-function GetMerchanItemQuantity(merchantData)
+function GetMerchantItemQuantity(merchantData)
 {
     let count = 0;
     for (let i = 0; i < merchantData.items.length; i++) 
     {
-        count += merchantData.items.quantity;
+        count += merchantData.items[i].quantity;
     }
     return count;
 }
@@ -60,19 +70,17 @@ async function IncreaseDayCounter(daysToPass)
     await UpdateSaveFile(newDayCount, currentSaveFile.id);
 }
 
-async function AddRandomNumberOfItems(maxItems, merchantData)
+async function AddItems(itemCount, quantity, merchantData, producedItems)
 {
-    let itemsToAdd = Math.floor(Math.random() * maxItems);
-    for (let j = 0; j < itemsToAdd; j++)
+    for (let j = 0; j < itemCount; j++)
     {
-        await AddItemRandomlyFromProduced(merchantData);
+        await AddItemRandomlyFromProduced(merchantData, producedItems, quantity);
     }
 }
 
-async function RemoveRandomNumberOfItems(maxItems, merchantData)
+async function RemoveItems(itemCount, merchantData)
 {
-    let itemsToRemove = Math.floor(Math.random() * maxItems);
-    for (let j = 0; j < itemsToRemove; j++)
+    for (let j = 0; j < itemCount; j++)
     {
         await RemoveRandomItem(merchantData);
     }
