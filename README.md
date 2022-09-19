@@ -1,6 +1,6 @@
 # Merchant Game
 
-The Merchant Game is a medieval fantasy themed trading game where players can travel around a world map via icons on a map image and buy ad sell goods/commodities at different locations on the map.
+The Merchant Game is a medieval themed trading game where players can travel around a world map via icons on a map image to buy and sell goods/commodities at different locations on the map.
 
 ![Preview Image](./public/images/screenshot.png?raw=true "Preview Image")
 
@@ -23,8 +23,8 @@ The game allows players to log in as individual users and either start a new gam
 ## User Story
 
 ```md
-AS A person who likes trading and fantasy video games
-I WANT a video game that has a fantasy theme with a trading features
+AS A person who likes trading and medieval video games
+I WANT a video game that has a medieval theme with trading features
 SO THAT I will enjoy the video game I am playing
 ```
 
