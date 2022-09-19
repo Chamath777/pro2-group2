@@ -48,6 +48,12 @@ async function ViewScoreHandler()
 	new Chart(chartElement, config);
 }
 
+async function CloseViewScoreHandler()
+{
+	const viewScoreModal = document.querySelector("#view-score-modal");
+	viewScoreModal.classList.remove("is-active");
+}
+
 async function GetGraphLabels(playerProgressData)
 {
 	let labels = [];
@@ -75,6 +81,12 @@ function SetupButtons()
 
 	const viewScoreCloseButton = document.querySelector("#view-score-close");
 	if (viewScoreCloseButton) viewScoreCloseButton.addEventListener("click", ViewScoreHandler);
+
+	const modalBackground = document.querySelectorAll(".modal-background");
+	for (let i = 0; i < modalBackground.length; i++) 
+	{
+		modalBackground[i].addEventListener("click", CloseViewScoreHandler);
+	}
 }
 
 SetupButtons();

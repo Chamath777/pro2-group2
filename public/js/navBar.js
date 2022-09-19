@@ -15,10 +15,16 @@ async function LogOutHandler()
 	else alert(response.statusText);
 };
 
-function HowToPlayHandler()
+function HowToPlayModalHandler()
 {
 	const howToPlayModal = document.querySelector("#how-to-play-modal");
 	howToPlayModal.classList.toggle("is-active");
+}
+
+async function CloseHowToPlayModalHandler()
+{
+	const viewScoreModal = document.querySelector("#how-to-play-modal");
+	viewScoreModal.classList.remove("is-active");
 }
 
 function SetupButtons() 
@@ -30,10 +36,16 @@ function SetupButtons()
 	if (logOutButton) logOutButton.addEventListener("click", LogOutHandler);
 
 	const howToPlayButton = document.querySelector("#how-to-play");
-	if (howToPlayButton) howToPlayButton.addEventListener("click", HowToPlayHandler);
+	if (howToPlayButton) howToPlayButton.addEventListener("click", HowToPlayModalHandler);
 
 	const howToPlayModalCloseButton = document.querySelector("#how-to-play-modal-close");
-	if (howToPlayModalCloseButton) howToPlayModalCloseButton.addEventListener("click", HowToPlayHandler);
+	if (howToPlayModalCloseButton) howToPlayModalCloseButton.addEventListener("click", HowToPlayModalHandler);
+
+	const modalBackground = document.querySelectorAll(".modal-background");
+	for (let i = 0; i < modalBackground.length; i++) 
+	{
+		modalBackground[i].addEventListener("click", CloseHowToPlayModalHandler);
+	}
 }
 
 //this is to make the navbar burger button clickable
