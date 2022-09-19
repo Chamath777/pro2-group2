@@ -77,6 +77,23 @@ async function GetPlayerCarryingCapacity(playerData)
     return carryingCapacity;
 }
 
+async function GetPlayerCarrying(playerData)
+{
+    let carrying = 0;
+    const itemTypes = GetAllItemTypes();
+    for (let i = 0; i < playerData.items.length; i++) 
+    {
+        for (let j = 0; j < itemTypes.length; j++) 
+        {
+            if (playerData.items[i].itemTypeId === itemTypes[j].id)
+            {
+                carrying += itemTypes[j].weight * playerData.items[i].quantity;
+            }
+        }
+    }
+    return carrying;
+}
+
 async function GetPlayerFoodConsumption(playerData)
 {
     return playerData.workers + playerData.horses;
@@ -166,11 +183,11 @@ async function GetProducedItemInformationFromLocationId(locationId)
     let producedHere = [];
     for (let i = 0; i < responseData.itemTypes.length; i++) 
     {
-        if (responseData.itemTypes[i].isItemProducedHere) producedHere.push(responseData.itemTypes[i]);
+        if (responseData.itemTypes[i].locationItemInformation.isItemProducedHere) producedHere.push(responseData.itemTypes[i]);
     }
 
     if (response.ok === false) console.log('Failed to get item types from location');
-    else return responseData.itemTypes;
+    else return producedHere;
 }
 
 async function GeneratePriceForItem(itemTypeId, produced)
@@ -228,6 +245,7 @@ export {
     GetMerchantItemTypeStatus,
     GetPlayerInformation,
     GetPlayerCarryingCapacity,
+    GetPlayerCarrying,
     GetPlayerFoodConsumption,
     GetPlayerWages,
     GetPlayerProgress,

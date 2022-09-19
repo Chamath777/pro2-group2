@@ -1,4 +1,4 @@
-import { GetMerchant } from "./getData.mjs";
+import { GetProducedItemInformationFromLocationId } from "./getData.mjs";
 import { AddItem, AddItemRandomlyFromProduced } from "./itemController.mjs";
 
 let merchantNames = 
@@ -34,9 +34,10 @@ async function AddMerchant(locationData, saveFileId)
         headers: {'Content-Type': 'application/json',},
     });
     const responseData = await response.json();
-    
+    const producedItems = await GetProducedItemInformationFromLocationId(locationData.id);
+
     if (response.ok === false) alert('Failed to create merchant');
-    else await InitialiseMerchantStock(responseData.id);
+    else await InitialiseMerchantStock(responseData, producedItems);
 }
 
 async function AddPlayer(playerName, saveFileId, locationId)
@@ -66,11 +67,12 @@ async function InitialisePlayerItems(merchantId)
     await AddItem(3, merchantId, 5);
 }
 
-async function InitialiseMerchantStock(merchantId)
+async function InitialiseMerchantStock(merchantData, producedItems)
 {
-    const merchantData = await GetMerchant(merchantId);
-    const numberOfItems = 6 + (Math.round(Math.random() * 15));
-    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantData);
+    //const merchantData = await GetMerchant(merchantId);
+    const numberOfItems = 3 + (Math.round(Math.random() * 5));
+    const itemQuantity = 1 + (Math.round(Math.random() * 3));
+    for (let i = 0; i < numberOfItems; i++) await AddItemRandomlyFromProduced(merchantData, producedItems, itemQuantity);
 }
 
 export { AddMerchant, AddPlayer };
