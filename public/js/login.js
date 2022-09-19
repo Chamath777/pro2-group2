@@ -15,8 +15,14 @@ async function LoginFormHandler(event)
     });
     
     if (response.ok) document.location.replace("/saveFile");
-    else alert("Wrong email or password, please try again.");
+    else InvalidDetailsHandler();
   }
+}
+
+function InvalidDetailsHandler()
+{
+	const invalidDetailsModal = document.querySelector("#invalid-details-modal");
+	invalidDetailsModal.classList.toggle("is-active");
 }
 
 function GoToSignUpHandler() 
@@ -31,6 +37,15 @@ function SetupButtons()
 
 	const signupButton = document.querySelector("#signUp-page-btn");
 	if (signupButton) signupButton.addEventListener("click", GoToSignUpHandler);
+
+  const closeInvalidDetailsModal = document.querySelector("#invalid-details-modal-close");
+	if (closeInvalidDetailsModal) closeInvalidDetailsModal.addEventListener("click", InvalidDetailsHandler);
+
+  const modalBackground = document.querySelectorAll(".modal-background");
+  for (let i = 0; i < modalBackground.length; i++) 
+  {
+    modalBackground[i].addEventListener("click", InvalidDetailsHandler);
+  }
 }
 
 SetupButtons();
