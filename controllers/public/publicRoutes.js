@@ -16,16 +16,16 @@ router.get("/signUp", async (req, res) =>
 
 router.get("/saveFile", RedirectToLogin, async (req, res) => 
 {
-	try {
+	try 
+	{
 		const userData = await User.findOne({ where: { id: req.session.userId }})
 		const user = userData.get({ plain: true });
 
-		const saveFileData = await SaveFile.findAll({
-		where: { userId: user.id },
-		});
+		const saveFileData = await SaveFile.findAll({ where: { userId: user.id }, });
 		const saveFiles = saveFileData.map((data) => data.get({ plain: true }));
 
-		res.render("saveFile", {
+		res.render("saveFile", 
+		{
 			saveFiles,
 			userName: user.name,
 			loggedIn: req.session.loggedIn,
@@ -41,10 +41,10 @@ router.get("/worldMap/:id", RedirectToLogin, async (req, res) =>
 	try 
 	{
 		const locationData = await Location.findAll({ where: { saveFileId: req.params.id } });
-		const locations = locationData.map((data) => data.get({ plain: true }));
-
-		if (locations)
+		
+		if (locationData)
 		{
+			const locations = locationData.map((data) => data.get({ plain: true }));
 			const playerData = await Merchant.findOne({where: {saveFileId: req.params.id, merchantType: "player"}, include: [{ model: Item }] });
 			const player = await playerData.get({ plain: true });
 
@@ -79,9 +79,10 @@ router.get("/location/:id", RedirectToLogin, async (req, res) =>
 		{ 
 			include: [{ model: Merchant }, { model: ItemType, through: LocationItemInformation }] 
 		});
-		const location = await locationData.get({ plain: true });
-		if (location)
+		
+		if (locationData)
 		{
+			const location = await locationData.get({ plain: true });
 			const merchantData = await Merchant.findOne
 			(
 				{ where: { locationId: req.params.id, merchantType: "npc" }, include: [{ model: Item }] }
