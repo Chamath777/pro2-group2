@@ -78,13 +78,21 @@ The project was designed to fulfil the following requirements:
 
 ## Installation
 
-Required Packages:
+Setup the database with:
 
-* NodeJS
+```md
+mysql -u root -p
+source db/schema.sql
+exit
+```
 
-* MySQL
-
-* Handlebars.JS
+Create a .env file in the root with the following details:
+```md
+DB_NAME='merchantgame_db'
+DB_USER='root'
+DB_PASSWORD='<YOUR MYSQL PASSWORD>'
+SESSION_SECRET='<YOUR SESSION SECRET>'
+```
 
 Enter the following commands in the terminal:
 
