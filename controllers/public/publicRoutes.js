@@ -29,8 +29,7 @@ router.get("/saveFile", RedirectToLogin, async (req, res) =>
 			saveFiles,
 			userName: user.name,
 			loggedIn: req.session.loggedIn,
-			displayHomePageButton: false,
-			displayScoreButton: false,
+			displayHowToPlayButton: true,
 		});
 	}
 	catch (err) { res.status(500).json(err); }
@@ -63,6 +62,7 @@ router.get("/worldMap/:id", RedirectToLogin, async (req, res) =>
 					loggedIn: req.session.loggedIn,
 					displayHomePageButton: true,
 					displayScoreButton: true,
+					displayHowToPlayButton: true,
 				});
 			});
 		}
@@ -113,6 +113,7 @@ router.get("/location/:id", RedirectToLogin, async (req, res) =>
 					loggedIn: req.session.loggedIn,
 					displayHomePageButton: true,
 					displayScoreButton: true,
+					displayHowToPlayButton: true,
 				});
 			});
 		}
@@ -133,7 +134,7 @@ router.get("/gameOver/:id", RedirectToLogin, async (req, res) =>
 			gameOverMessage,
 			loggedIn: req.session.loggedIn,
 			displayHomePageButton: true,
-			displayScoreButton: false,
+			displayHowToPlayButton: true,
 		});
 	} 
 	catch (err) { res.status(500).json(err); }
